@@ -1,0 +1,7 @@
+.Tasks {
+    display: grid;
+    gap: var(--page-content-gap);
+    width: 100%;
+    max-width: var(--max-page-width);
+    margin: 2rem;
+}

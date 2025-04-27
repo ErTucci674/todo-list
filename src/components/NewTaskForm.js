@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import './NewTaskForm.css';
+import PlusIcon from './svgs/component/PlusIcon.js';
+import MinusIcon from './svgs/component/MinusIcon.js';
+import CalendarIcon from './svgs/component/CalendarIcon.js';
+import IcecubeIcon from './svgs/component/IcecubeIcon.js';
+import FireIcon from './svgs/component/FireIcon.js';
 
 function NewTaskForm({ addNewTask }) {
     // The keys are the same as the HTML IDs
@@ -9,6 +14,14 @@ function NewTaskForm({ addNewTask }) {
         newTaskImportance: ''
     });
 
+    const [isFocused, setIsFocused] = useState(true);
+
+    // When the user clicks the text area, the entire 'form' is shown
+    // Hide back the bottom side when the user is not 'focusing' on any of the inputs
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
+
+    // Update the 'data' whenever a checkbox or radio is toggled
     const handleChange = (event) => {
         const { id, value, type, checked, name } = event.target;
 
@@ -31,37 +44,69 @@ function NewTaskForm({ addNewTask }) {
 
         // Remove spaces at the beginning and end of the task's text
         // Include a text if omitted by the user
-        // TODO: Don't allow the user to leave a blank text
         const adjustedFormData = {
             ...formData,
-            newTaskText: formData.newTaskText.trim() || 'Task'
+            newTaskText: formData.newTaskText.trim()
         }
 
-        addNewTask(adjustedFormData);
+        // Don't allow the user to leave a blank text
+        // TODO: show an 'error tab' for an invalid text input
+        if (adjustedFormData.newTaskText !== '') {
+            addNewTask(adjustedFormData);
 
-        // Reset the input values
-        setFormData({
-            newTaskText: '',
-            newTaskDate: '',
-            newTaskImportance: ''
-        });
+            // Reset the input values
+            setFormData({
+                newTaskText: '',
+                newTaskDate: '',
+                newTaskImportance: ''
+            });
+        }
+
     }
 
     return (
         <div className='NewTaskForm'>
-            <div className='newTask-wrapper'>
-                <form className="newTask-form" onSubmit={handleSubmit} method='GET'>
-                    <div className="top-side">
-                        <button type='submit'></button>
-                        <input id="newTaskText" type="text" placeholder='Add new task...' value={formData.newTaskText} onChange={handleChange} autoComplete='off' />
+            <form className="newTask-form" onFocus={handleFocus} onBlur={handleBlur} onSubmit={handleSubmit} method='GET'>
+                <section className="newTask-top-side">
+                    <div className='icon-wrapper'>
+                        <PlusIcon />
+                        <button className='newTask-submit-button newTask-button' type='submit'></button>
                     </div>
-                    <div className="bottom-side">
-                        <input id='newTaskDate' type='date' value={formData.newTaskDate} onChange={handleChange}></input>
-                        <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='useful' checked={formData.newTaskImportance === 'useful'} onChange={handleChange}></input>
-                        <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='urgent' checked={formData.newTaskImportance === 'urgent'} onChange={handleChange}></input>
+                    <input id="newTaskText" className='newTask-text' type="text" placeholder='Add new task...' value={formData.newTaskText} onChange={handleChange} autoComplete='off' />
+                    <div className='icon-wrapper' style={{ visibility: isFocused ? "visible" : "hidden" }}>
+                        <MinusIcon />
+                        <button className='newTask-shrink-button newTask-button' type='button' onClick={handleBlur}></button>
                     </div>
-                </form>
-            </div>
+                </section>
+                <section className={`newTask-bottom-side ${isFocused ? "visible" : ""}`}>
+                    <table>
+                        <tr>
+                            <th>Due Date</th>
+                            <th>Importance</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div className='newTask-date-wrapper'>
+                                    <input id='newTaskDate' className='newTask-date' type='date' value={formData.newTaskDate} onChange={handleChange}></input>
+                                    <CalendarIcon />
+                                </div>
+                            </td>
+                            <td>
+                                <div className='newTask-importance-options'>
+                                    <div className='newTask-importance-wrapper'>
+                                        <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='useful' checked={formData.newTaskImportance === 'useful'} onChange={handleChange}></input>
+                                        <IcecubeIcon />
+                                    </div>
+                                    <div className='newTask-importance-wrapper'>
+                                        <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='urgent' checked={formData.newTaskImportance === 'urgent'} onChange={handleChange}></input>
+                                        <FireIcon />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </form>
         </div>
     )
 }

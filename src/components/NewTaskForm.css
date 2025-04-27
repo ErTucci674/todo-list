@@ -1,0 +1,186 @@
+.NewTaskForm {
+    background-color: var(--content-light-background);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* --- Generals --- */
+
+.icon-wrapper {
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-wrapper>* {
+    width: 100%;
+    height: 100%;
+}
+
+.newTask-button {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- TOP SIDE --- */
+
+.newTask-top-side {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.PlusIcon>svg {
+    stroke: var(--content-main);
+}
+
+.newTask-text {
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    color: var(--content-gray);
+}
+
+.newTask-text:focus {
+    outline: none;
+}
+
+.MinusIcon>svg {
+    stroke: var(--content-main);
+}
+
+/* --- BOTTOM SIDE --- */
+
+.newTask-bottom-side {
+    --animation-timing: 2s;
+    display: flex;
+    justify-content: space-between;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--animation-timing) linear;
+}
+
+/* The max-height value adjusts the animation speed*/
+.visible {
+    max-height: 300px;
+}
+
+/* This avoids unnecessary delays caused by 'max-height' */
+.newTask-bottom-side:not(.visible) {
+    transition: max-height calc(var(--animation-timing) * 0.5) ease-out;
+}
+
+.newTask-bottom-side table {
+    width: 100%;
+}
+
+.newTask-bottom-side table tr {
+    padding: 1rem;
+    text-align: left;
+}
+
+.newTask-bottom-side table tr :is(th, td) {
+    padding-top: 5px;
+    padding-right: 1.5rem;
+}
+
+.newTask-bottom-side table th {
+    color: var(--content-main);
+}
+
+/* --- Date Input --- */
+
+.newTask-date-wrapper {
+    position: relative;
+    --space-left-gap: 5px;
+    --space-left: calc(var(--icon-size) + var(--space-left-gap));
+}
+
+.newTask-date {
+    padding: 2px 0 2px var(--space-left);
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    color: inherit;
+}
+
+.newTask-date:focus {
+    outline-color: var(--content-main);
+}
+
+
+.newTask-date::-webkit-calendar-picker-indicator {
+    position: absolute;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.CalendarIcon svg {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    translate: 0 -50%;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    stroke: var(--content-main);
+}
+
+/* --- Importance Input --- */
+
+.newTask-importance-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.newTask-importance-wrapper {
+    position: relative;
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
+
+.IcecubeIcon svg {
+    fill: var(--blue);
+    stroke-width: 0.2;
+}
+
+.FireIcon svg {
+    stroke: var(--red);
+}
+
+.newTask-importance-options input {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.newTask-importance-options input~div {
+    filter: grayscale(1);
+    transition: filter 150ms ease-in;
+}
+
+.newTask-importance-options input:hover~div,
+.newTask-importance-options input:checked~div {
+    filter: grayscale(0);
+}
+
+/* --- Touchscreen Devices --- */
+
+@media (pointer: coarse) {
+    .newTask-date {
+        background: #9991;
+        border-radius: 3px;
+    }
+}

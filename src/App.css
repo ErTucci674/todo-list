@@ -1,11 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400&display=swap');
+
+:root {
+  /* Main Colours */
+  --background: #eee;
+  --content-gray: #868686;
+  --content-background: #d0d0d0;
+  --content-light-background: #f9f9f9;
+  --content-main: #6a91d9;
+  --green: #6ad972;
+  --red: #d96a6a;
+  --blue: #6a9ed9;
+  --yellow: #d9d56a;
+
+  /* Layouts */
+  --max-page-width: 700px;
+  --border-radius: 5px;
+  --shadow-color: #0003;
+  --box-shadow: 1px 4px 4px 0 var(--shadow-color);
+  --font-size: clamp(1rem, 2vw, 1.125rem);
+  --page-content-gap: 15px;
+  --icon-size: clamp(1.25rem, 2vw, 1.56rem);
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  min-width: 700px;
   min-height: 100svh;
-  background-color: #d9d9d9;
-  color: #000;
+  background-color: var(--background);
+  font-family: "Gabarito", Arial, Helvetica, sans-serif;
+  font-size: var(--font-size);
+  color: var(--content-gray);
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+button,
+input[type="text"] {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--content-gray);
+  stroke-width: 3;
 }
