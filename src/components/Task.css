@@ -1,0 +1,34 @@
+/* --- General --- */
+
+.check-input {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.task-wrapper {
+    box-shadow: var(--box-shadow);
+    padding: var(--task-padding);
+    border-radius: var(--border-radius);
+}
+
+.top-side {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* --- Status check Input --- */
+
+.check-icon-wrapper:has(input:checked) {
+    background: var(--green);
+}
+
+/* --- Preference Input --- */
+
+.preference-icon-wrapper input:checked~.Icon svg {
+    fill: var(--yellow);
+}

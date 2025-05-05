@@ -1,0 +1,85 @@
+/* --- General --- */
+
+.icon-wrapper {
+    position: relative;
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
+
+.icon-wrapper>* {
+    width: 100%;
+    height: 100%;
+}
+
+.Icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    translate: 0 -50%;
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--content-gray);
+    stroke-width: 3;
+}
+
+/* --- Wrappers --- */
+
+.check-icon-wrapper {
+    scale: 0.9;
+    aspect-ratio: 1 / 1;
+    background-color: var(--content-background);
+    border-radius: 50%;
+}
+
+/* --- SVGs --- */
+
+.PlusIcon>svg {
+    stroke: var(--content-main);
+}
+
+.MinusIcon>svg {
+    stroke: var(--content-main);
+}
+
+.IcecubeIcon svg {
+    fill: var(--blue);
+    stroke-width: 0.2;
+}
+
+.FireIcon svg {
+    stroke: var(--red);
+}
+
+.CheckIcon svg {
+    scale: 0.7;
+    stroke: var(--content-light-background);
+    stroke-width: 4;
+}
+
+.edit-icon-wrapper .CheckIcon svg {
+    stroke: var(--green);
+}
+
+.CalendarIcon svg {
+    stroke: var(--content-main);
+}
+
+.PreferenceIcon svg {
+    stroke: none;
+    fill: var(--content-gray);
+}
+
+.EditIcon svg {
+    stroke: none;
+    fill: var(--content-main);
+}
+
+.DeleteIcon svg {
+    rotate: 45deg;
+    stroke: var(--red);
+}

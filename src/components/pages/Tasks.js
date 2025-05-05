@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Tasks.css';
+import '../svgs/icons.css';
 import NewTaskForm from '../NewTaskForm.js';
 import Task from '../Task.js';
 

@@ -1,6 +1,6 @@
 function IcecubeIcon() {
     return (
-        <div className="IcecubeIcon">
+        <div className="IcecubeIcon Icon">
             <svg width="150mm" height="150.00002mm" viewBox="0 0 150 150.00002">
                 <g
                     transform="translate(-34.495922,-58.254211)">
