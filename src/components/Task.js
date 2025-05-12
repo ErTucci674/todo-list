@@ -42,9 +42,11 @@ function Task({ task, updateTask }) {
                 updateTask(adjustedTaskData);
                 setTaskData(adjustedTaskData);
             }
-        };
+        }
 
         setEdit(editStatus);
+
+
     }
 
     const handleChange = (event) => {
@@ -75,64 +77,77 @@ function Task({ task, updateTask }) {
         }
 
         setTaskData(newTaskData);
+        getTaskDate();
+    }
+
+    // Returns converted date format 'year-month-day' to 'day-month-year'
+    function getTaskDate() {
+        const date = new Date(task.dueDate);
+        return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
     }
 
     return (
         <div className='Task'>
-            <div className='icon-wrapper reorder-icon-wrapper'>
-                <ReorderIcon />
+            <div className='date-wrapper'>
+                <p>{getTaskDate()}</p>
+                <div className='line'></div>
             </div>
-            <div className='main'>
-                <section className="top-side">
-                    <div className='icon-wrapper check-icon-wrapper'>
-                        <input id='taskCompletionStatus' className='check-input' type='checkbox' checked={taskData.taskCompletionStatus} onChange={handleChange}></input>
-                        <CheckIcon />
-                    </div>
-                    <input id='taskText' type='text' value={taskData.taskText} onChange={handleChange} autoComplete='off' disabled={!edit}></input>
-                    <div className='icon-wrapper preference-icon-wrapper'>
-                        <input id='taskPreference' type='checkbox' checked={taskData.taskPreference} onChange={handleChange}></input>
-                        <PreferenceIcon />
-                    </div>
-                    <div className='icon-wrapper'>
-                        {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
-                    </div>
-                    <div className='icon-wrapper edit-icon-wrapper'>
-                        <input id='editCheckbox' type='checkbox' checked={edit} onChange={toggleEdit}></input>
-                        {edit ? <CheckIcon /> : <EditIcon />}
-                    </div>
-                </section>
-                <section className={`task-bottom-side ${edit ? "task-visible" : ""}`}>
-                    <table>
-                        <tr>
-                            <th>Due Date</th>
-                            <th>Importance</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className='task-date-wrapper'>
-                                    <input id='taskDate' className='task-date' type='date' value={taskData.taskDate} onChange={handleChange}></input>
-                                    <CalendarIcon />
-                                </div>
-                            </td>
-                            <td>
-                                <div className='importance-options'>
-                                    <div className='icon-wrapper'>
-                                        <input id='taskImportanceUseful' type='radio' name='taskImportance' value='useful' checked={taskData.taskImportance === 'useful'} onChange={handleChange}></input>
-                                        <IcecubeIcon />
+            <div className='task-wrapper'>
+                <div className='icon-wrapper reorder-icon-wrapper'>
+                    <ReorderIcon />
+                </div>
+                <div className='main'>
+                    <section className="top-side">
+                        <div className='icon-wrapper check-icon-wrapper'>
+                            <input id='taskCompletionStatus' className='check-input' type='checkbox' checked={taskData.taskCompletionStatus} onChange={handleChange}></input>
+                            <CheckIcon />
+                        </div>
+                        <input id='taskText' style={{ cursor: edit ? "pointer" : "default" }} type='text' value={taskData.taskText} onChange={handleChange} autoComplete='off' disabled={!edit}></input>
+                        <div className='icon-wrapper preference-icon-wrapper'>
+                            <input id='taskPreference' type='checkbox' checked={taskData.taskPreference} onChange={handleChange}></input>
+                            <PreferenceIcon />
+                        </div>
+                        <div className='icon-wrapper'>
+                            {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
+                        </div>
+                        <div className='icon-wrapper edit-icon-wrapper'>
+                            <input id='editCheckbox' type='checkbox' checked={edit} onChange={toggleEdit}></input>
+                            {edit ? <CheckIcon /> : <EditIcon />}
+                        </div>
+                    </section>
+                    <section className={`task-bottom-side ${edit ? "task-visible" : ""}`}>
+                        <table>
+                            <tr>
+                                <th>Due Date</th>
+                                <th>Importance</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div className='task-date-wrapper'>
+                                        <input id='taskDate' className='task-date' type='date' value={taskData.taskDate} onChange={handleChange}></input>
+                                        <CalendarIcon />
                                     </div>
-                                    <div className='icon-wrapper'>
-                                        <input id='taskImportanceUrgent' type='radio' name='taskImportance' value='urgent' checked={taskData.taskImportance === 'urgent'} onChange={handleChange}></input>
-                                        <FireIcon />
+                                </td>
+                                <td>
+                                    <div className='importance-options'>
+                                        <div className='icon-wrapper'>
+                                            <input id='taskImportanceUseful' type='radio' name='taskImportance' value='useful' checked={taskData.taskImportance === 'useful'} onChange={handleChange}></input>
+                                            <IcecubeIcon />
+                                        </div>
+                                        <div className='icon-wrapper'>
+                                            <input id='taskImportanceUrgent' type='radio' name='taskImportance' value='urgent' checked={taskData.taskImportance === 'urgent'} onChange={handleChange}></input>
+                                            <FireIcon />
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </section>
-            </div>
-            <div className='icon-wrapper delete-icon-wrapper'>
-                <input id='taskDeleteStatus' type='checkbox' checked={taskData.taskDeleteStatus} onChange={handleChange}></input>
-                <DeleteIcon />
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                </div>
+                <div className='icon-wrapper delete-icon-wrapper'>
+                    <input id='taskDeleteStatus' type='checkbox' checked={taskData.taskDeleteStatus} onChange={handleChange}></input>
+                    <DeleteIcon />
+                </div>
             </div>
         </div>
     )
