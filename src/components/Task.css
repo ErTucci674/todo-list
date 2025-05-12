@@ -8,10 +8,22 @@
     cursor: pointer;
 }
 
-.task-wrapper {
+.Task {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Task .main {
+    width: var(--task-width);
     box-shadow: var(--box-shadow);
-    padding: var(--task-padding);
+    padding-block: var(--task-padding-block);
+    padding-inline: var(--task-padding-inline);
     border-radius: var(--border-radius);
+}
+
+.Task>.icon-wrapper {
+    margin-top: var(--task-padding-block);
 }
 
 .top-side {

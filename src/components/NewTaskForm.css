@@ -1,6 +1,8 @@
 .NewTaskForm {
+    width: var(--task-width);
     background-color: var(--content-light-background);
-    padding: var(--task-padding);
+    padding-block: var(--task-padding-block);
+    padding-inline: var(--task-padding-inline);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
 }

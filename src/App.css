@@ -18,9 +18,11 @@
   --shadow-color: #0003;
   --box-shadow: 1px 4px 4px 0 var(--shadow-color);
   --font-size: clamp(1rem, 2vw, 1.125rem);
-  --task-padding: 10px;
-  --page-content-gap: 15px;
+  --task-padding-block: 10px;
+  --task-padding-inline: calc(var(--task-padding-block) + 5px);
+  --page-content-gap: 20px;
   --icon-size: clamp(1.25rem, 2vw, 1.56rem);
+  --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
 }
 
 /* --- General --- */

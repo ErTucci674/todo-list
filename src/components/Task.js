@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Task.css';
+import ReorderIcon from './svgs/component/ReorderIcon.js';
 import CheckIcon from './svgs/component/CheckIcon.js';
 import CalendarIcon from './svgs/component/CalendarIcon.js';
 import IcecubeIcon from './svgs/component/IcecubeIcon.js';
@@ -78,7 +79,10 @@ function Task({ task, updateTask }) {
 
     return (
         <div className='Task'>
-            <div className='task-wrapper'>
+            <div className='icon-wrapper reorder-icon-wrapper'>
+                <ReorderIcon />
+            </div>
+            <div className='main'>
                 <section className="top-side">
                     <div className='icon-wrapper check-icon-wrapper'>
                         <input id='taskCompletionStatus' className='check-input' type='checkbox' checked={taskData.taskCompletionStatus} onChange={handleChange}></input>
@@ -89,13 +93,12 @@ function Task({ task, updateTask }) {
                         <input id='taskPreference' type='checkbox' checked={taskData.taskPreference} onChange={handleChange}></input>
                         <PreferenceIcon />
                     </div>
+                    <div className='icon-wrapper'>
+                        {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
+                    </div>
                     <div className='icon-wrapper edit-icon-wrapper'>
                         <input id='editCheckbox' type='checkbox' checked={edit} onChange={toggleEdit}></input>
                         {edit ? <CheckIcon /> : <EditIcon />}
-                    </div>
-                    <div className='icon-wrapper delete-icon-wrapper'>
-                        <input id='taskDeleteStatus' type='checkbox' checked={taskData.taskDeleteStatus} onChange={handleChange}></input>
-                        <DeleteIcon />
                     </div>
                 </section>
                 <section className={`task-bottom-side ${edit ? "task-visible" : ""}`}>
@@ -126,7 +129,10 @@ function Task({ task, updateTask }) {
                         </tr>
                     </table>
                 </section>
-
+            </div>
+            <div className='icon-wrapper delete-icon-wrapper'>
+                <input id='taskDeleteStatus' type='checkbox' checked={taskData.taskDeleteStatus} onChange={handleChange}></input>
+                <DeleteIcon />
             </div>
         </div>
     )

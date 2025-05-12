@@ -46,6 +46,11 @@ svg {
     stroke: var(--content-main);
 }
 
+.ReorderIcon svg {
+    stroke-width: 0;
+    fill: var(--content-gray);
+}
+
 .IcecubeIcon svg {
     fill: var(--blue);
     stroke-width: 0.2;

@@ -1,5 +1,8 @@
 .Tasks {
-    display: grid;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: var(--page-content-gap);
     width: 100%;
     max-width: var(--max-page-width);
