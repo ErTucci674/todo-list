@@ -43,18 +43,18 @@ function Tasks() {
         let newUserTasks = [...tasks];
 
         // Remove the item from the list if 'delete' checkbox is active
-        if (taskToUpdate.taskDeleteStatus) {
+        if (taskToUpdate.deleteStatus) {
             newUserTasks = tasks.filter((task) => task.id !== taskToUpdate.id);
         } else {
             // Find the correct task and update it
             // Store all of the 'new' tasks in a variable to update the user's storage and app
             newUserTasks = tasks.map((task) => {
                 if (task.id === taskToUpdate.id) {
-                    task.text = taskToUpdate.taskText;
-                    task.dueDate = taskToUpdate.taskDate;
-                    task.completionStatus = taskToUpdate.taskCompletionStatus;
-                    task.importance = taskToUpdate.taskImportance;
-                    task.preference = taskToUpdate.taskPreference;
+                    task.text = taskToUpdate.text;
+                    task.dueDate = taskToUpdate.dueDate;
+                    task.completionStatus = taskToUpdate.completionStatus;
+                    task.importance = taskToUpdate.importance;
+                    task.preference = taskToUpdate.preference;
                 }
                 return task;
             })

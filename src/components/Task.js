@@ -13,12 +13,12 @@ function Task({ task, updateTask }) {
     // The keys are the same as the HTML IDs
     const [taskData, setTaskData] = useState({
         id: task.id,
-        taskText: task.text,
-        taskDate: task.dueDate,
-        taskCompletionStatus: task.completionStatus,
-        taskImportance: task.importance,
-        taskPreference: task.preference,
-        taskDeleteStatus: false
+        text: task.text,
+        dueDate: task.dueDate,
+        completionStatus: task.completionStatus,
+        importance: task.importance,
+        preference: task.preference,
+        deleteStatus: false
     });
 
     const [edit, setEdit] = useState(true);
@@ -33,12 +33,12 @@ function Task({ task, updateTask }) {
             // Make sure spaces at the beginning and end of the task's text are removed
             const adjustedTaskData = {
                 ...taskData,
-                taskText: taskData.taskText.trim()
+                text: taskData.text.trim()
             }
 
             // Don't allow the user to leave a blank text
             // TODO: show an 'error tab' for an invalid text input
-            if (adjustedTaskData.taskText !== '') {
+            if (adjustedTaskData.text !== '') {
                 updateTask(adjustedTaskData);
                 setTaskData(adjustedTaskData);
             }
@@ -48,7 +48,7 @@ function Task({ task, updateTask }) {
     }
 
     const handleChange = (event) => {
-        const { id, value, type, checked, name } = event.target;
+        const { value, type, checked, name } = event.target;
 
         // Setup a temporary storage for the data
         let newTaskData = { ...taskData };
@@ -58,19 +58,14 @@ function Task({ task, updateTask }) {
         if (type === 'checkbox') {
             newTaskData = {
                 ...newTaskData,
-                [id]: checked
+                [name]: checked
             };
             // Update the values on the main page
             updateTask(newTaskData);
-        } else if (type === 'radio') {
-            newTaskData = {
-                ...newTaskData,
-                [name]: value,
-            }
         } else {
             newTaskData = {
                 ...newTaskData,
-                [id]: value
+                [name]: value
             };
         }
 
@@ -101,21 +96,21 @@ function Task({ task, updateTask }) {
                 <div className='main'>
                     <section className="top-side">
                         <div className='icon-wrapper check-icon-wrapper'>
-                            <input id='taskCompletionStatus' className='check-input' type='checkbox' checked={taskData.taskCompletionStatus} onChange={handleChange}></input>
+                            <input name='completionStatus' className='check-input' type='checkbox' checked={taskData.completionStatus} onChange={handleChange}></input>
                             <CheckIcon />
                         </div>
-                        <input id='taskText' style={{ cursor: edit ? "pointer" : "default" }} type='text' value={taskData.taskText} onChange={handleChange} autoComplete='off' disabled={!edit}></input>
+                        <input name='text' style={{ cursor: edit ? "pointer" : "default" }} type='text' value={taskData.text} onChange={handleChange} autoComplete='off' disabled={!edit}></input>
                         <div className='icon-wrapper preference-icon-wrapper'>
-                            <input id='taskPreference' type='checkbox' checked={taskData.taskPreference} onChange={handleChange}></input>
+                            <input name='preference' type='checkbox' checked={taskData.preference} onChange={handleChange}></input>
                             <PreferenceIcon />
                         </div>
-                        {taskData.taskImportance !== "" && (
+                        {taskData.importance !== "" && (
                             <div className='icon-wrapper'>
-                                {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
+                                {taskData.importance === "useful" ? <IcecubeIcon /> : <FireIcon />}
                             </div>
                         )}
                         <div className='icon-wrapper edit-icon-wrapper'>
-                            <input id='editCheckbox' type='checkbox' checked={edit} onChange={toggleEdit}></input>
+                            <input type='checkbox' checked={edit} onChange={toggleEdit}></input>
                             {edit ? <CheckIcon /> : <EditIcon />}
                         </div>
                     </section>
@@ -128,18 +123,18 @@ function Task({ task, updateTask }) {
                             <tr>
                                 <td>
                                     <div className='task-date-wrapper'>
-                                        <input id='taskDate' className='task-date' type='date' value={taskData.taskDate} onChange={handleChange}></input>
+                                        <input name='dueDate' className='task-date' type='date' value={taskData.dueDate} onChange={handleChange}></input>
                                         <CalendarIcon />
                                     </div>
                                 </td>
                                 <td>
                                     <div className='importance-options'>
                                         <div className='icon-wrapper'>
-                                            <input id='taskImportanceUseful' type='radio' name='taskImportance' value='useful' checked={taskData.taskImportance === 'useful'} onChange={handleChange}></input>
+                                            <input type='radio' name='importance' value='useful' checked={taskData.importance === 'useful'} onChange={handleChange}></input>
                                             <IcecubeIcon />
                                         </div>
                                         <div className='icon-wrapper'>
-                                            <input id='taskImportanceUrgent' type='radio' name='taskImportance' value='urgent' checked={taskData.taskImportance === 'urgent'} onChange={handleChange}></input>
+                                            <input type='radio' name='importance' value='urgent' checked={taskData.importance === 'urgent'} onChange={handleChange}></input>
                                             <FireIcon />
                                         </div>
                                     </div>
@@ -149,7 +144,7 @@ function Task({ task, updateTask }) {
                     </section>
                 </div>
                 <div className='icon-wrapper delete-icon-wrapper'>
-                    <input id='taskDeleteStatus' type='checkbox' checked={taskData.taskDeleteStatus} onChange={handleChange}></input>
+                    <input name='deleteStatus' type='checkbox' checked={taskData.deleteStatus} onChange={handleChange}></input>
                     <DeleteIcon />
                 </div>
             </div>
