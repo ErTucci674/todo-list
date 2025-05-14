@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './Tasks.css';
 import '../svgs/icons.css';
 import NewTaskForm from '../NewTaskForm.js';
@@ -18,10 +19,7 @@ function Tasks() {
 
     function addNewTask(data) {
         // Generate an ID for the new task
-        let newId = 0;
-        if (tasks.length > 0) {
-            newId = tasks[tasks.length - 1].id + 1
-        }
+        let newId = uuidv4();
 
         // Setup the new task's values
         const newTask = {

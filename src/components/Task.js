@@ -45,8 +45,6 @@ function Task({ task, updateTask }) {
         }
 
         setEdit(editStatus);
-
-
     }
 
     const handleChange = (event) => {
@@ -81,8 +79,12 @@ function Task({ task, updateTask }) {
     }
 
     // Returns converted date format 'year-month-day' to 'day-month-year'
+    // Otherwise, if no date has been included, returns a different string
     function getTaskDate() {
         const date = new Date(task.dueDate);
+
+        // Check for a valid date input and return the corresponding string        
+        if (isNaN(date.getTime())) return "No due date";
         return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
     }
 
@@ -107,9 +109,11 @@ function Task({ task, updateTask }) {
                             <input id='taskPreference' type='checkbox' checked={taskData.taskPreference} onChange={handleChange}></input>
                             <PreferenceIcon />
                         </div>
-                        <div className='icon-wrapper'>
-                            {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
-                        </div>
+                        {taskData.taskImportance !== "" && (
+                            <div className='icon-wrapper'>
+                                {taskData.taskImportance === "useful" ? <IcecubeIcon /> : <FireIcon />}
+                            </div>
+                        )}
                         <div className='icon-wrapper edit-icon-wrapper'>
                             <input id='editCheckbox' type='checkbox' checked={edit} onChange={toggleEdit}></input>
                             {edit ? <CheckIcon /> : <EditIcon />}
