@@ -14,7 +14,7 @@ function NewTaskForm({ addNewTask }) {
         newTaskImportance: ''
     });
 
-    const [isFocused, setIsFocused] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
 
     // When the user clicks the text area, the entire 'form' is shown
     // Hide back the bottom side when the user is not 'focusing' on any of the inputs

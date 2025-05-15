@@ -45,6 +45,7 @@
 
 .task-wrapper .main {
     width: var(--task-width);
+    background-color: var(--content-light-background);
     box-shadow: var(--box-shadow);
     padding-block: var(--task-padding-block);
     padding-inline: var(--task-padding-inline);

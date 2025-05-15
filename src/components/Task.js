@@ -21,7 +21,12 @@ function Task({ task, updateTask }) {
         deleteStatus: false
     });
 
-    const [edit, setEdit] = useState(true);
+    const [edit, setEdit] = useState(false);
+    const importanceLevels = ["useful", "urgent"];
+
+    // The icon of the corresponding Task's importance changes independently from the currently selected importance when in edit mode
+    // It changes only when the user saves the edits
+    const [importance, setImportance] = useState(taskData.importance);
 
     // Toggle the Task edit mode
     // Avoids User making changes by mistake
@@ -42,6 +47,9 @@ function Task({ task, updateTask }) {
                 updateTask(adjustedTaskData);
                 setTaskData(adjustedTaskData);
             }
+
+            // Update the Task's importance illustrated icon (not the selectable input)
+            setImportance(adjustedTaskData.importance);
         }
 
         setEdit(editStatus);
@@ -62,6 +70,11 @@ function Task({ task, updateTask }) {
             };
             // Update the values on the main page
             updateTask(newTaskData);
+        } else if (type === 'radio') {
+            newTaskData = {
+                ...newTaskData,
+                importance: value
+            };
         } else {
             newTaskData = {
                 ...newTaskData,
@@ -104,9 +117,9 @@ function Task({ task, updateTask }) {
                             <input name='preference' type='checkbox' checked={taskData.preference} onChange={handleChange}></input>
                             <PreferenceIcon />
                         </div>
-                        {taskData.importance !== "" && (
+                        {importance !== "" && (
                             <div className='icon-wrapper'>
-                                {taskData.importance === "useful" ? <IcecubeIcon /> : <FireIcon />}
+                                {importance === importanceLevels[0] ? <IcecubeIcon /> : <FireIcon />}
                             </div>
                         )}
                         <div className='icon-wrapper edit-icon-wrapper'>
@@ -130,11 +143,11 @@ function Task({ task, updateTask }) {
                                 <td>
                                     <div className='importance-options'>
                                         <div className='icon-wrapper'>
-                                            <input type='radio' name='importance' value='useful' checked={taskData.importance === 'useful'} onChange={handleChange}></input>
+                                            <input type='radio' value={importanceLevels[0]} checked={taskData.importance === importanceLevels[0]} onChange={handleChange}></input>
                                             <IcecubeIcon />
                                         </div>
                                         <div className='icon-wrapper'>
-                                            <input type='radio' name='importance' value='urgent' checked={taskData.importance === 'urgent'} onChange={handleChange}></input>
+                                            <input type='radio' value={importanceLevels[1]} checked={taskData.importance === importanceLevels[1]} onChange={handleChange}></input>
                                             <FireIcon />
                                         </div>
                                     </div>
