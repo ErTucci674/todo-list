@@ -4,18 +4,13 @@ import './Tasks.css';
 import '../svgs/icons.css';
 import NewTaskForm from '../NewTaskForm.js';
 import Task from '../Task.js';
+import ArrangeButton from '../ArrangeButton.js';
 
 function Tasks() {
     const tasksStorageName = "tasks";
     const retrievedUserTasks = JSON.parse(localStorage.getItem(tasksStorageName));
     const [tasks, setTasks] = useState([]);
-
-    function setup() {
-        // Get the user's tasks if created already
-        if (retrievedUserTasks != null) {
-            setTasks(retrievedUserTasks);
-        }
-    }
+    const [tempTasks, setTempTasks] = useState([]);
 
     function addNewTask(data) {
         // Generate an ID for the new task
@@ -65,14 +60,32 @@ function Tasks() {
         setTasks(newUserTasks);
     }
 
+    // --- Sorting Functions ---
+    function sortTasksByDueDate() {
+        // Sort tasks by dueDate in ascending order
+        const sortedTasks = [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        setTempTasks(sortedTasks);
+    }
+
+    const sorting = {
+        sortTasksByDueDate,
+    }
+
     useEffect(() => {
-        setup();
+        // Get the user's tasks if created already
+        if (retrievedUserTasks != null) {
+            setTasks(retrievedUserTasks);
+            setTempTasks(retrievedUserTasks);
+        }
     }, [])
 
     return (
         <div className='Tasks'>
             <NewTaskForm addNewTask={addNewTask} />
-            {tasks.map(task => {
+            <div className='arrange-wrapper'>
+                <ArrangeButton sort={true} sorting={sorting} filter={false} />
+            </div>
+            {tempTasks.map(task => {
                 return (
                     <Task key={task.id} task={task} updateTask={updateTask} />
                 )

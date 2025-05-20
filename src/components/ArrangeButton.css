@@ -1,0 +1,12 @@
+.ArrangeButton {
+    position: relative;
+    width: var(--arrange-icon-size);
+    height: var(--arrange-icon-size);
+    background-color: var(--content-background);
+    padding: var(--arrange-button-padding);
+    border-radius: 50%;
+}
+
+.ArranButton input {
+    opacity: 1;
+}

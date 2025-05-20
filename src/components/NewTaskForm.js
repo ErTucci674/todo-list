@@ -79,30 +79,34 @@ function NewTaskForm({ addNewTask }) {
                 </section>
                 <section className={`task-bottom-side newTask-bottom-side ${isFocused ? "task-visible" : ""}`}>
                     <table>
-                        <tr>
-                            <th>Due Date</th>
-                            <th>Importance</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className='task-date-wrapper'>
-                                    <input id='newTaskDate' className='task-date' type='date' value={formData.newTaskDate} onChange={handleChange}></input>
-                                    <CalendarIcon />
-                                </div>
-                            </td>
-                            <td>
-                                <div className='importance-options'>
-                                    <div className='icon-wrapper'>
-                                        <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='useful' checked={formData.newTaskImportance === 'useful'} onChange={handleChange}></input>
-                                        <IcecubeIcon />
+                        <thead>
+                            <tr>
+                                <th>Due Date</th>
+                                <th>Importance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className='task-date-wrapper'>
+                                        <input id='newTaskDate' className='task-date' type='date' value={formData.newTaskDate} onChange={handleChange}></input>
+                                        <CalendarIcon />
                                     </div>
-                                    <div className='icon-wrapper'>
-                                        <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='urgent' checked={formData.newTaskImportance === 'urgent'} onChange={handleChange}></input>
-                                        <FireIcon />
+                                </td>
+                                <td>
+                                    <div className='importance-options'>
+                                        <div className='icon-wrapper'>
+                                            <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='useful' checked={formData.newTaskImportance === 'useful'} onChange={handleChange}></input>
+                                            <IcecubeIcon />
+                                        </div>
+                                        <div className='icon-wrapper'>
+                                            <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='urgent' checked={formData.newTaskImportance === 'urgent'} onChange={handleChange}></input>
+                                            <FireIcon />
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </section>
             </form>

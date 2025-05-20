@@ -129,30 +129,34 @@ function Task({ task, updateTask }) {
                     </section>
                     <section className={`task-bottom-side ${edit ? "task-visible" : ""}`}>
                         <table>
-                            <tr>
-                                <th>Due Date</th>
-                                <th>Importance</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='task-date-wrapper'>
-                                        <input name='dueDate' className='task-date' type='date' value={taskData.dueDate} onChange={handleChange}></input>
-                                        <CalendarIcon />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className='importance-options'>
-                                        <div className='icon-wrapper'>
-                                            <input type='radio' value={importanceLevels[0]} checked={taskData.importance === importanceLevels[0]} onChange={handleChange}></input>
-                                            <IcecubeIcon />
+                            <thead>
+                                <tr>
+                                    <th>Due Date</th>
+                                    <th>Importance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div className='task-date-wrapper'>
+                                            <input name='dueDate' className='task-date' type='date' value={taskData.dueDate} onChange={handleChange}></input>
+                                            <CalendarIcon />
                                         </div>
-                                        <div className='icon-wrapper'>
-                                            <input type='radio' value={importanceLevels[1]} checked={taskData.importance === importanceLevels[1]} onChange={handleChange}></input>
-                                            <FireIcon />
+                                    </td>
+                                    <td>
+                                        <div className='importance-options'>
+                                            <div className='icon-wrapper'>
+                                                <input type='radio' value={importanceLevels[0]} checked={taskData.importance === importanceLevels[0]} onChange={handleChange}></input>
+                                                <IcecubeIcon />
+                                            </div>
+                                            <div className='icon-wrapper'>
+                                                <input type='radio' value={importanceLevels[1]} checked={taskData.importance === importanceLevels[1]} onChange={handleChange}></input>
+                                                <FireIcon />
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </section>
                 </div>

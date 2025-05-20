@@ -8,3 +8,10 @@
     max-width: var(--max-page-width);
     margin: 2rem;
 }
+
+.arrange-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--page-content-gap);
+    width: calc(var(--task-width) + var(--task-padding-inline) * 2);
+}

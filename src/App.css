@@ -21,7 +21,9 @@
   --task-padding-block: 10px;
   --task-padding-inline: calc(var(--task-padding-block) + 5px);
   --page-content-gap: 20px;
-  --icon-size: clamp(1.125rem, 2vw, 1.40rem);
+  --icon-size: clamp(1.25rem, 2vw, 1.5rem);
+  --arrange-icon-size: calc(var(--icon-size) * 1.25);
+  --arrange-button-padding: 3px;
   --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
 }
 
@@ -62,6 +64,9 @@ input[type="text"] {
 
 input[type="checkbox"] {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   width: 100%;
   height: 100%;
   cursor: pointer;
