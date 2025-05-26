@@ -22,6 +22,7 @@
   --task-padding-inline: calc(var(--task-padding-block) + 5px);
   --page-content-gap: 20px;
   --icon-size: clamp(1.25rem, 2vw, 1.5rem);
+  --icon-gap: 1.5rem;
   --arrange-icon-size: calc(var(--icon-size) * 1.25);
   --arrange-button-padding: 3px;
   --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
