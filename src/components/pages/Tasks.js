@@ -84,6 +84,7 @@ function Tasks() {
             <NewTaskForm addNewTask={addNewTask} />
             <div className='arrange-wrapper'>
                 <ArrangeButton sort={true} sorting={sorting} filter={false} />
+                <ArrangeButton sort={false} sorting={sorting} filter={true} />
             </div>
             {tempTasks.map(task => {
                 return (

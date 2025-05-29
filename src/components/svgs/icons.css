@@ -96,3 +96,8 @@ svg {
     rotate: 45deg;
     stroke: var(--red);
 }
+
+.FilterIcon svg {
+    stroke: none;
+    fill: var(--content-gray);
+}

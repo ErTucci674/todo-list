@@ -7,8 +7,13 @@
     border-radius: 50%;
 }
 
-.ArrangeButton>input:checked+.Icon svg {
+/* Icons - different changes might have to be done depending on the selected icon */
+.ArrangeButton>input:checked+.SortIcon svg {
     stroke: var(--content-main);
+}
+
+.ArrangeButton>input:checked+.FilterIcon svg {
+    fill: var(--content-main);
 }
 
 .ArrangeButton>.options {
