@@ -61,13 +61,21 @@ function Tasks() {
     }
 
     // --- Sorting Functions ---
+    // Reset the sorting to the default state
+    function sortReset() {
+        setTempTasks([...tasks]);
+    }
+
+    // Sort tasks by dueDate in ascending order
     function sortTasksByDueDate() {
-        // Sort tasks by dueDate in ascending order
-        const sortedTasks = [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        // The 'Infinity' value (largest possible value) handles tasks without a 'dueDate'
+        // Infinity is not needed but keeps the result 'predictable'
+        const sortedTasks = [...tasks].sort((a, b) => new Date(a.dueDate || Infinity) - new Date(b.dueDate || Infinity));
         setTempTasks(sortedTasks);
     }
 
     const sorting = {
+        sortReset,
         sortTasksByDueDate,
     }
 

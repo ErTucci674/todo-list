@@ -23,12 +23,18 @@ function ArrangeButton({ sort, sorting, filter }) {
         const { name, checked } = event.target;
 
         if (name === "button") {
-            console.log(checked)
             setButtonChecked(checked);
         } else if (name === "dueDate") {
             setDueDateChecked(checked);
             if (sort) {
                 setImportanceChecked(false)
+                // Reset the 'sorting order' if the checkbox has been unchecked
+                if (checked) {
+                    sorting.sortTasksByDueDate();
+                }
+                else {
+                    sorting.sortReset();
+                }
             }
         } else if (name === "importance") {
             setImportanceChecked(checked);
@@ -48,7 +54,7 @@ function ArrangeButton({ sort, sorting, filter }) {
             <input name="button" type='checkbox' checked={buttonChecked} onChange={handleChange} onBlur={handleBlur}></input>
             {sort ? <SortIcon /> : ""}
             {filter ? <FilterIcon /> : ""}
-            <div className='options'>
+            <div className='options' onMouseDown={(e) => e.preventDefault()}>
                 <div><b>{headerText}</b></div>
                 <div className='option'>
                     <span>Due date</span>

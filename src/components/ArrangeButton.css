@@ -7,12 +7,14 @@
     border-radius: 50%;
 }
 
-/* Icons - different changes might have to be done depending on the selected icon */
-.ArrangeButton>input:checked+.SortIcon svg {
+/* Icons - different changes might have to be done depending on the selected/hovered icon */
+.ArrangeButton>input:checked+.SortIcon svg,
+.ArrangeButton>input:hover+.SortIcon svg {
     stroke: var(--content-main);
 }
 
-.ArrangeButton>input:checked+.FilterIcon svg {
+.ArrangeButton>input:checked+.FilterIcon svg,
+.ArrangeButton>input:hover+.FilterIcon svg {
     fill: var(--content-main);
 }
 
