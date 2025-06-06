@@ -74,9 +74,16 @@ function Tasks() {
         setTempTasks(sortedTasks);
     }
 
+    // Sort taks by importance level in descending order
+    function sortTasksByImportance() {
+        const sortedTasks = [...tasks].sort((a, b) => parseInt(b.importance, 10) - parseInt(a.importance, 10));
+        setTempTasks(sortedTasks);
+    }
+
     const sorting = {
         sortReset,
         sortTasksByDueDate,
+        sortTasksByImportance
     }
 
     useEffect(() => {

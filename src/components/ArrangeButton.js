@@ -40,6 +40,14 @@ function ArrangeButton({ sort, sorting, filter }) {
             setImportanceChecked(checked);
             if (sort) {
                 setDueDateChecked(false)
+
+                // Reset the 'sorting order' if the checkbox has been unchecked
+                if (checked) {
+                    sorting.sortTasksByImportance();
+                }
+                else {
+                    sorting.sortReset();
+                }
             }
         }
     }
