@@ -23,7 +23,7 @@ function NewTaskForm({ addNewTask }) {
 
     // Update the 'data' whenever a checkbox or radio is toggled
     const handleChange = (event) => {
-        const { id, value, type, checked, name } = event.target;
+        const { id, value, type, name } = event.target;
 
         if (type === 'radio') {
             setFormData((prevState) => ({
@@ -96,11 +96,11 @@ function NewTaskForm({ addNewTask }) {
                                 <td>
                                     <div className='importance-options'>
                                         <div className='icon-wrapper'>
-                                            <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='useful' checked={formData.newTaskImportance === 'useful'} onChange={handleChange}></input>
+                                            <input id='newTaskImportanceUseful' type='radio' name='newTaskImportance' value='0' checked={formData.newTaskImportance === '0'} onChange={handleChange}></input>
                                             <IcecubeIcon />
                                         </div>
                                         <div className='icon-wrapper'>
-                                            <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='urgent' checked={formData.newTaskImportance === 'urgent'} onChange={handleChange}></input>
+                                            <input id='newTaskImportanceUrgent' type='radio' name='newTaskImportance' value='1' checked={formData.newTaskImportance === '1'} onChange={handleChange}></input>
                                             <FireIcon />
                                         </div>
                                     </div>

@@ -22,7 +22,6 @@ function Task({ task, updateTask }) {
     });
 
     const [edit, setEdit] = useState(false);
-    const importanceLevels = ["useful", "urgent"];
 
     // The icon of the corresponding Task's importance changes independently from the currently selected importance when in edit mode
     // It changes only when the user saves the edits
@@ -119,7 +118,7 @@ function Task({ task, updateTask }) {
                         </div>
                         {importance !== "" && (
                             <div className='icon-wrapper'>
-                                {importance === importanceLevels[0] ? <IcecubeIcon /> : <FireIcon />}
+                                {importance === "0" ? <IcecubeIcon /> : <FireIcon />}
                             </div>
                         )}
                         <div className='icon-wrapper edit-icon-wrapper'>
@@ -146,11 +145,11 @@ function Task({ task, updateTask }) {
                                     <td>
                                         <div className='importance-options'>
                                             <div className='icon-wrapper'>
-                                                <input type='radio' value={importanceLevels[0]} checked={taskData.importance === importanceLevels[0]} onChange={handleChange}></input>
+                                                <input type='radio' value={"0"} checked={taskData.importance === "0"} onChange={handleChange}></input>
                                                 <IcecubeIcon />
                                             </div>
                                             <div className='icon-wrapper'>
-                                                <input type='radio' value={importanceLevels[1]} checked={taskData.importance === importanceLevels[1]} onChange={handleChange}></input>
+                                                <input type='radio' value={"1"} checked={taskData.importance === "1"} onChange={handleChange}></input>
                                                 <FireIcon />
                                             </div>
                                         </div>
