@@ -31,7 +31,7 @@ function Tasks() {
         localStorage.setItem(tasksStorageName, JSON.stringify(newUserTasks));
 
         // Update the tasks list
-        setTasks(newUserTasks);
+        updateTasks(newUserTasks);
     }
 
     function updateTask(taskToUpdate) {
@@ -57,7 +57,13 @@ function Tasks() {
 
         // Save the new values and reload the new content on the page
         localStorage.setItem(tasksStorageName, JSON.stringify(newUserTasks));
+        updateTasks(newUserTasks);
+    }
+
+    // Updates the 'main' tasks and re-loads the ones illustrated on the page
+    function updateTasks(newUserTasks) {
         setTasks(newUserTasks);
+        setTempTasks(newUserTasks);
     }
 
     // --- Sorting Functions ---
