@@ -29,12 +29,7 @@ function ArrangeButton({ sort, sorting, filter }) {
             if (sort) {
                 setImportanceChecked(false)
                 // Reset the 'sorting order' if the checkbox has been unchecked
-                if (checked) {
-                    sorting.sortTasksByDueDate();
-                }
-                else {
-                    sorting.sortReset();
-                }
+                checked ? sorting.sortTasksByDueDate() : sorting.sortReset();
             }
         } else if (name === "importance") {
             setImportanceChecked(checked);
@@ -42,12 +37,7 @@ function ArrangeButton({ sort, sorting, filter }) {
                 setDueDateChecked(false)
 
                 // Reset the 'sorting order' if the checkbox has been unchecked
-                if (checked) {
-                    sorting.sortTasksByImportance();
-                }
-                else {
-                    sorting.sortReset();
-                }
+                checked ? sorting.sortTasksByImportance() : sorting.sortReset();
             }
         }
     }

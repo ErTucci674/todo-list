@@ -11,6 +11,10 @@ function Tasks() {
     const retrievedUserTasks = JSON.parse(localStorage.getItem(tasksStorageName));
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
+    const [sort, setSort] = useState({
+        dueDate: false,
+        importance: false
+    });
 
     function addNewTask(data) {
         // Generate an ID for the new task
@@ -60,36 +64,61 @@ function Tasks() {
         updateTasks(newUserTasks);
     }
 
-    // Updates the 'main' tasks and re-loads the ones illustrated on the page
-    function updateTasks(newUserTasks) {
-        setTasks(newUserTasks);
-        setTempTasks(newUserTasks);
-    }
-
     // --- Sorting Functions ---
     // Reset the sorting to the default state
     function sortReset() {
         setTempTasks([...tasks]);
+        setSort({
+            dueDate: false,
+            importance: false
+        })
     }
 
     // Sort tasks by dueDate in ascending order
-    function sortTasksByDueDate() {
+    function sortTasksByDueDate(currentTasks = [...tasks]) {
         // The 'Infinity' value (largest possible value) handles tasks without a 'dueDate'
         // Infinity is not needed but keeps the result 'predictable'
-        const sortedTasks = [...tasks].sort((a, b) => new Date(a.dueDate || Infinity) - new Date(b.dueDate || Infinity));
+        const sortedTasks = currentTasks.sort((a, b) => new Date(a.dueDate || Infinity) - new Date(b.dueDate || Infinity));
         setTempTasks(sortedTasks);
+        setSort({
+            dueDate: true,
+            importance: false
+        })
     }
 
     // Sort taks by importance level in descending order
-    function sortTasksByImportance() {
-        const sortedTasks = [...tasks].sort((a, b) => parseInt(b.importance, 10) - parseInt(a.importance, 10));
+    function sortTasksByImportance(currentTasks = [...tasks]) {
+        const sortedTasks = currentTasks.sort((a, b) => parseInt(b.importance, 10) - parseInt(a.importance, 10));
         setTempTasks(sortedTasks);
+        setSort({
+            dueDate: false,
+            importance: true
+        })
+    }
+
+    // Updates the 'main' tasks and re-loads the ones illustrated on the page
+    function updateTasks(newUserTasks) {
+        setTasks(newUserTasks);
+        setTempTasks(newUserTasks);
+        sortFilter(newUserTasks);
     }
 
     const sorting = {
         sortReset,
         sortTasksByDueDate,
         sortTasksByImportance
+    }
+
+    // Checks which 'sort' and 'filter' options have been selected
+    // Adjusts the illustrated tasks accordingly
+    function sortFilter(currentTasks) {
+        // Check for sorting
+        if (sort.dueDate) {
+            sortTasksByDueDate(currentTasks)
+        }
+        else if (sort.importance) {
+            sortTasksByImportance(currentTasks);
+        }
     }
 
     useEffect(() => {
