@@ -26,6 +26,7 @@
   --arrange-icon-size: calc(var(--icon-size) * 1.25);
   --arrange-button-padding: 3px;
   --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
+  --percentage-bar-wrapper-width: calc(var(--task-width) + var(--task-padding-inline) * 2);
 }
 
 /* --- General --- */

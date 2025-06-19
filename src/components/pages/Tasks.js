@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './Tasks.css';
 import '../svgs/icons.css';
+import PercentageBar from '../PercentageBar.js';
 import NewTaskForm from '../NewTaskForm.js';
 import Task from '../Task.js';
 import ArrangeButton from '../ArrangeButton.js';
@@ -131,6 +132,7 @@ function Tasks() {
 
     return (
         <div className='Tasks'>
+            <PercentageBar />
             <NewTaskForm addNewTask={addNewTask} />
             <div className='arrange-wrapper'>
                 <ArrangeButton sort={true} sorting={sorting} filter={false} />

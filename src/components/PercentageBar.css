@@ -1,0 +1,15 @@
+/* --- Percentage & Settings --- */
+.PercentageBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--page-content-gap);
+    width: var(--percentage-bar-wrapper-width);
+}
+
+.percentage-bar {
+    width: 100%;
+    height: 100%;
+    border-radius: 100vw;
+    background-color: var(--content-background);
+}
