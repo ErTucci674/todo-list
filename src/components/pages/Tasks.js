@@ -12,6 +12,8 @@ function Tasks() {
     const retrievedUserTasks = JSON.parse(localStorage.getItem(tasksStorageName));
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
+    const [tasksTotal, setTasksTotal] = useState(0);
+    const [tasksCompleted, setTasksCompleted] = useState(0);
     const [sort, setSort] = useState({
         dueDate: false,
         importance: false
@@ -37,6 +39,9 @@ function Tasks() {
 
         // Update the tasks list
         updateTasks(newUserTasks);
+
+        // Update the total number of tasks
+        setTasksTotal(tasksTotal + 1);
     }
 
     function updateTask(taskToUpdate) {
@@ -45,11 +50,22 @@ function Tasks() {
         // Remove the item from the list if 'delete' checkbox is active
         if (taskToUpdate.deleteStatus) {
             newUserTasks = tasks.filter((task) => task.id !== taskToUpdate.id);
+
+            // Update the number of completed tasks if necessary
+            // Update the total number of tasks
+            if (taskToUpdate.completionStatus) setTasksCompleted(tasksCompleted - 1);
+            setTasksTotal(tasksTotal - 1);
         } else {
             // Find the correct task and update it
             // Store all of the 'new' tasks in a variable to update the user's storage and app
             newUserTasks = tasks.map((task) => {
                 if (task.id === taskToUpdate.id) {
+                    // Checks if task completion status changes
+                    if (tasks.completionStatus !== taskToUpdate.completionStatus) {
+                        taskToUpdate.completionStatus ? setTasksCompleted(tasksCompleted + 1) : setTasksCompleted(tasksCompleted - 1);
+                    }
+
+                    // Updates the current task
                     task.text = taskToUpdate.text;
                     task.dueDate = taskToUpdate.dueDate;
                     task.completionStatus = taskToUpdate.completionStatus;
@@ -127,12 +143,14 @@ function Tasks() {
         if (retrievedUserTasks != null) {
             setTasks(retrievedUserTasks);
             setTempTasks(retrievedUserTasks);
+            setTasksTotal(retrievedUserTasks.length);
+            setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus === true).length);
         }
     }, [])
 
     return (
         <div className='Tasks'>
-            <PercentageBar />
+            <PercentageBar tasksTotal={tasksTotal} tasksCompleted={tasksCompleted} />
             <NewTaskForm addNewTask={addNewTask} />
             <div className='arrange-wrapper'>
                 <ArrangeButton sort={true} sorting={sorting} filter={false} />

@@ -8,8 +8,24 @@
 }
 
 .percentage-bar {
+    --completionStatus: 0%;
+    --completionLineColor: var(--green);
+    position: relative;
     width: 100%;
     height: 100%;
     border-radius: 100vw;
     background-color: var(--content-background);
+    overflow: hidden;
+}
+
+/* 'Completion' line */
+.percentage-bar::after {
+    content: '';
+    position: absolute;
+    width: var(--completionStatus);
+    height: 100%;
+    height: 100%;
+    background-color: var(--completionLineColor);
+    border-radius: inherit;
+    transition: all ease-out 300ms;
 }
