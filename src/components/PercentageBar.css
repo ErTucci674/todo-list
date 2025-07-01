@@ -1,7 +1,6 @@
 /* --- Percentage --- */
 .PercentageBar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: var(--page-content-gap);
     width: var(--percentage-bar-wrapper-width);
@@ -28,6 +27,12 @@
     background-color: var(--completionLineColor);
     border-radius: inherit;
     transition: all ease-out 300ms;
+}
+
+/* Keeps the settings icon all the way to the right
+Even when percentage bar is not shown */
+.icon-wrapper:has(.settings-checkbox) {
+    margin-left: auto;
 }
 
 /* --- Settings Window --- */
