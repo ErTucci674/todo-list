@@ -28,6 +28,10 @@
   --arrange-button-padding: 3px;
   --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
   --percentage-bar-wrapper-width: calc(var(--task-width) + var(--task-padding-inline) * 2);
+
+  /* Animation & Transitions */
+  --transition-time: 500ms;
+  --transition-type-switch: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* --- General --- */

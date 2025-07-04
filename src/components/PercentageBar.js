@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './PercentageBar.css';
 import SettingsIcon from './svgs/component/SettingsIcon';
 import DeleteIcon from './svgs/component/DeleteIcon';
+import ToggleSwitch from './ToggleSwitch';
 
 function PercentageBar({ tasksTotal, tasksCompleted }) {
     // Settings
@@ -17,6 +18,10 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
     // Determines the when the percentage bar color changes
     // Correspond to the ratio of completed tasks over total tasks
     const factorChangeColor = 0.75;
+    const factorStep = 5;
+    const factorNumbers = Array.from({ length: (100 / factorStep) }, (_, i) => (i + 1) * factorStep);
+
+    console.log(factorNumbers);
 
     // Toggle the settings window
     const toggleSettings = (event) => {
@@ -57,6 +62,24 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                             <DeleteIcon />
                         </div>
                     </div>
+                    <ul className='settings'>
+                        <li>
+                            <span>Percentage Bar</span>
+                            <ToggleSwitch />
+                        </li>
+                        <li>
+                            <span>Percentage Goal</span>
+                            <select className='percentageFactors' name="factors">
+                                {factorNumbers.map((num) => (
+                                    <option key={num} value={num}>{num}</option>
+                                ))}
+                            </select>
+                        </li>
+                        <li>
+                            <span>Dark Theme</span>
+                            <ToggleSwitch />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

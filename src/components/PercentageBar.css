@@ -57,10 +57,7 @@ Even when percentage bar is not shown */
 }
 
 .settings-window {
-    /* test values */
-    width: 300px;
-    height: 200px;
-
+    min-width: 300px;
     padding-block: var(--task-padding-block);
     padding-inline: var(--task-padding-inline);
     background-color: var(--content-light-background);
@@ -77,6 +74,21 @@ Even when percentage bar is not shown */
     margin: 0 auto;
 }
 
-/* .settings-window .top-section .icon-wrapper {
-    margin-left: auto;
-} */
+.settings {
+    list-style-type: none;
+}
+
+.settings li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: var(--page-content-gap) 0;
+}
+
+.settings .percentageFactors {
+    border: 0;
+    border-radius: var(--border-radius);
+    box-shadow:
+        0 0 0 2px var(--content-gray),
+        0 1px 0 2px var(--content-gray);
+}
