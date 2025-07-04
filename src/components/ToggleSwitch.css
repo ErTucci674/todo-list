@@ -1,0 +1,50 @@
+.ToggleSwitch {
+    --off-color: var(--content-gray);
+    --on-color: var(--content-main);
+    --current-color: var(--off-color);
+    --width: calc(var(--icon-size) * 2);
+    --height: calc(var(--width) / 2);
+    position: relative;
+    width: var(--width);
+    height: var(--height);
+    border-radius: 100svw;
+}
+
+.ToggleSwitch input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.ToggleSwitch .switch-style {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--current-color);
+    border-radius: inherit;
+}
+
+.ToggleSwitch .switch-style::after {
+    --size: calc(var(--height) + 1px);
+    content: '';
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    width: var(--size);
+    height: var(--size);
+    background-color: var(--content-light-background);
+    box-shadow:
+        0 0 0 2px var(--current-color),
+        0 1px 0 2px var(--current-color);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-time) var(--transition-type-switch);
+}
+
+.ToggleSwitch input:checked~.switch-style {
+    --current-color: var(--on-color);
+}
+
+.ToggleSwitch input:checked~.switch-style::after {
+    --x-shift: calc(var(--width) - 100%);
+    transform: translateX(var(--x-shift));
+}
