@@ -18,7 +18,7 @@
   --border-radius: 5px;
   --shadow-color: #0003;
   --box-shadow: 1px 4px 4px 0 var(--shadow-color);
-  --font-size: clamp(0.80rem, 2vw, 1.125rem);
+  --font-size: clamp(1rem, 2vw, 1.15rem);
   --task-padding-block: 10px;
   --task-padding-inline: calc(var(--task-padding-block) + 5px);
   --page-content-gap: 20px;
@@ -120,7 +120,6 @@ input[type="checkbox"] {
 
 .task-bottom-side table tr :is(th, td) {
   padding-top: 5px;
-  padding-right: 1.5rem;
 }
 
 /* --- Date input --- */
@@ -129,9 +128,11 @@ input[type="checkbox"] {
   position: relative;
   --space-left-gap: 5px;
   --space-left: calc(var(--icon-size) + var(--space-left-gap));
+  margin-right: 1px;
 }
 
 .task-date {
+  width: 12ch;
   padding: 2px 0 2px var(--space-left);
   background: none;
   font-family: inherit;
