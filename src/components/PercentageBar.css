@@ -86,9 +86,18 @@ Even when percentage bar is not shown */
 }
 
 .settings .percentageFactors {
+    width: calc(var(--icon-size) * 2);
+    background-color: var(--content-light-background);
     border: 0;
     border-radius: var(--border-radius);
     box-shadow:
         0 0 0 2px var(--content-gray),
         0 1px 0 2px var(--content-gray);
+    color: var(--text-color);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.settings .percentageFactors option {
+    background-color: var(--content-light-background);
 }

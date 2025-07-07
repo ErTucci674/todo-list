@@ -3,7 +3,7 @@
     --on-color: var(--content-main);
     --current-color: var(--off-color);
     --width: calc(var(--icon-size) * 2);
-    --height: calc(var(--width) / 2);
+    --height: calc(var(--width) / 2 - 3px);
     position: relative;
     width: var(--width);
     height: var(--height);
