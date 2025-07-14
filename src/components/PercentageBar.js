@@ -8,6 +8,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
     // Settings
     const [openSettings, setOpenSettings] = useState(false);
     const [displaySettings, setDisplaySettings] = useState('none');
+    const [percentageBar, setPercentageBar] = useState(true);
     const settingsWindowDisplayMode = 'grid';
 
     // Access the html root variables
@@ -21,13 +22,15 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
     const factorStep = 5;
     const factorNumbers = Array.from({ length: (100 / factorStep) }, (_, i) => (i + 1) * factorStep);
 
-    console.log(factorNumbers);
-
     // Toggle the settings window
     const toggleSettings = (event) => {
         const settingsStatus = event.target.checked;
         settingsStatus ? setDisplaySettings(settingsWindowDisplayMode) : setDisplaySettings('none');
         setOpenSettings(settingsStatus);
+    }
+
+    function togglePercentageBar(toggle) {
+        setPercentageBar(toggle);
     }
 
     // Switch colors (smooth change takes place in the css)
@@ -47,7 +50,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
 
     return (
         <div className="PercentageBar">
-            <div className='percentage-bar' style={{ '--completionStatus': factorToPercentage(), '--completionLineColor': currentCompletionLineColor }}></div>
+            <div className='percentage-bar' style={{ '--completionStatus': factorToPercentage(), '--completionLineColor': currentCompletionLineColor, 'opacity': percentageBar ? '100%' : '0%' }}></div>
             <div className='icon-wrapper'>
                 <input name='settings-checkbox' className='settings-checkbox' type='checkbox' checked={openSettings} onChange={toggleSettings} />
                 <SettingsIcon />
@@ -65,7 +68,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                     <ul className='settings'>
                         <li>
                             <span>Percentage Bar</span>
-                            <ToggleSwitch />
+                            <ToggleSwitch toggleFunction={togglePercentageBar} />
                         </li>
                         <li>
                             <span>Percentage Goal</span>
