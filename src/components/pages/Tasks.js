@@ -8,12 +8,16 @@ import Task from '../Task.js';
 import ArrangeButton from '../ArrangeButton.js';
 
 function Tasks() {
+    // Retrieved user's data
     const tasksStorageName = "tasks";
     const retrievedUserTasks = JSON.parse(localStorage.getItem(tasksStorageName));
+
+    // Tasks
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
     const [tasksTotal, setTasksTotal] = useState(0);
     const [tasksCompleted, setTasksCompleted] = useState(0);
+
     const [sort, setSort] = useState({
         dueDate: false,
         importance: false

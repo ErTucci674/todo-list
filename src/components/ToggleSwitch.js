@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import './ToggleSwitch.css';
 
-function ToggleSwitch({ toggleFunction }) {
+function ToggleSwitch({ toggleName, checked, toggleFunction }) {
     // 'Send' the current input to the selected toggleFunction
     const handleChange = (event) => {
-        const { checked } = event.target;
-        toggleFunction(checked);
+        const newToggle = event.target.checked;
+        toggleFunction(newToggle);
     }
 
     return (
         <div className='ToggleSwitch'>
-            <input type='checkbox' onChange={handleChange}></input>
+            <input name={toggleName} type='checkbox' checked={checked} onChange={handleChange}></input>
             <div className='switch-style'></div>
         </div>
     )

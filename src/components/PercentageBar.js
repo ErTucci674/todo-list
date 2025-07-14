@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './PercentageBar.css';
 import SettingsIcon from './svgs/component/SettingsIcon';
 import DeleteIcon from './svgs/component/DeleteIcon';
@@ -6,9 +6,19 @@ import ToggleSwitch from './ToggleSwitch';
 
 function PercentageBar({ tasksTotal, tasksCompleted }) {
     // Settings
+    const settingsStorageName = "settings";
+    const retrievedUserSettings = JSON.parse(localStorage.getItem(settingsStorageName));
+
+    const defaultSettings = {
+        'percentageBar': true,
+        'percentageGoal': 0.75,
+        'darkTheme': false,
+    }
+    const [settings, setSettings] = useState(defaultSettings);
+
     const [openSettings, setOpenSettings] = useState(false);
     const [displaySettings, setDisplaySettings] = useState('none');
-    const [percentageBar, setPercentageBar] = useState(true);
+    const [percentageBar, setPercentageBar] = useState();
 
     const settingsWindowDisplayMode = 'grid';
 
@@ -32,13 +42,36 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
 
     // Sets the Percentage Bar visibility
     function togglePercentageBar(toggle) {
+        const newSettings = {
+            ...settings,
+            'percentageBar': toggle,
+        }
+        localStorage.setItem(settingsStorageName, JSON.stringify(newSettings));
+        setSettings(newSettings);
         setPercentageBar(toggle);
     }
 
     // Sets a new value for the factor
     const handleFactorChangeColor = (event) => {
         const value = parseInt(event.target.value, 10) / 100;
+        const newSettings = {
+            ...settings,
+            'percentageGoal': value,
+        }
+        localStorage.setItem(settingsStorageName, JSON.stringify(newSettings));
+        setSettings(newSettings);
         setFactorChangeColor(value);
+    }
+
+    // Sets the Dark theme esthetics of the web app
+    function toggleDarkTheme(toggle) {
+        const newSettings = {
+            ...settings,
+            'darkTheme': toggle,
+        }
+        localStorage.setItem(settingsStorageName, JSON.stringify(newSettings));
+        setSettings(newSettings);
+        // TODO: function that switches between light and dark theme
     }
 
     // Switch colors (smooth change takes place in the css)
@@ -55,6 +88,14 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
     function factorToPercentage(factor = getCompletionFactor()) {
         return (`${factor * 100}%`);
     }
+
+    useEffect(() => {
+        // Assign the user' settings
+        if (retrievedUserSettings != null) {
+            setSettings(retrievedUserSettings);
+            setPercentageBar(retrievedUserSettings.percentageBar);
+        }
+    }, [])
 
     return (
         <div className="PercentageBar">
@@ -76,7 +117,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                     <ul className='settings'>
                         <li>
                             <span>Percentage Bar</span>
-                            <ToggleSwitch toggleFunction={togglePercentageBar} />
+                            <ToggleSwitch toggleName="percentageBar" checked={settings.percentageBar} toggleFunction={togglePercentageBar} />
                         </li>
                         <li>
                             <span>Percentage Goal</span>
@@ -88,7 +129,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                         </li>
                         <li>
                             <span>Dark Theme</span>
-                            <ToggleSwitch />
+                            <ToggleSwitch toggleName="darkTheme" checked={settings.darkTheme} toggleFunction={() => { }} />
                         </li>
                     </ul>
                 </div>
