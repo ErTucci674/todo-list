@@ -9,6 +9,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
     const [openSettings, setOpenSettings] = useState(false);
     const [displaySettings, setDisplaySettings] = useState('none');
     const [percentageBar, setPercentageBar] = useState(true);
+
     const settingsWindowDisplayMode = 'grid';
 
     // Access the html root variables
@@ -18,7 +19,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
 
     // Determines the when the percentage bar color changes
     // Correspond to the ratio of completed tasks over total tasks
-    const factorChangeColor = 0.75;
+    const [factorChangeColor, setFactorChangeColor] = useState(0.75);
     const factorStep = 5;
     const factorNumbers = Array.from({ length: (100 / factorStep) }, (_, i) => (i + 1) * factorStep);
 
@@ -29,8 +30,15 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
         setOpenSettings(settingsStatus);
     }
 
+    // Sets the Percentage Bar visibility
     function togglePercentageBar(toggle) {
         setPercentageBar(toggle);
+    }
+
+    // Sets a new value for the factor
+    const handleFactorChangeColor = (event) => {
+        const value = parseInt(event.target.value, 10) / 100;
+        setFactorChangeColor(value);
     }
 
     // Switch colors (smooth change takes place in the css)
@@ -72,7 +80,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                         </li>
                         <li>
                             <span>Percentage Goal</span>
-                            <select className='percentageFactors' name="factors">
+                            <select className='percentageFactors' name="factors" onChange={handleFactorChangeColor}>
                                 {factorNumbers.map((num) => (
                                     <option key={num} value={num}>{num}</option>
                                 ))}
