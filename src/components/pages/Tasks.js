@@ -97,9 +97,18 @@ function Tasks() {
 
     // Sort tasks by dueDate in ascending order
     function sortTasksByDueDate(currentTasks = [...tasks]) {
-        // The 'Infinity' value (largest possible value) handles tasks without a 'dueDate'
-        // Infinity is not needed but keeps the result 'predictable'
-        const sortedTasks = currentTasks.sort((a, b) => new Date(a.dueDate || Infinity) - new Date(b.dueDate || Infinity));
+        const sortedTasks = currentTasks.sort((a, b) => {
+            const aDueDate = new Date(a.dueDate);
+            const bDueDate = new Date(b.dueDate);
+
+            // 'isNaN' checks if they variables stored are Invalid Dates
+            if (isNaN(aDueDate) && isNaN(bDueDate)) return 0; // Both values are invalid so nothing is done
+            if (isNaN(aDueDate)) return 1;                    // 'a' is pushed at the end
+            if (isNaN(bDueDate)) return -1;                   // 'b' is pushed at the end
+
+            // Normal comparison if both values are Valid Dates
+            return aDueDate - bDueDate;
+        });
         setTempTasks(sortedTasks);
         setSort({
             dueDate: true,
@@ -109,7 +118,18 @@ function Tasks() {
 
     // Sort taks by importance level in descending order
     function sortTasksByImportance(currentTasks = [...tasks]) {
-        const sortedTasks = currentTasks.sort((a, b) => parseInt(b.importance, 10) - parseInt(a.importance, 10));
+        const sortedTasks = currentTasks.sort((a, b) => {
+            const aImportance = parseInt(a.importance, 10);
+            const bImportance = parseInt(b.importance, 10);
+
+            // Checks if they values stored are valid Integers
+            if (!Number.isInteger(aImportance) && !Number.isInteger(bImportance)) return 0; // Both values are invalid so nothing is done
+            if (!Number.isInteger(aImportance)) return 1;                                   // 'a' is pushed at the end
+            if (!Number.isInteger(bImportance)) return -1;                                  // 'b' is pushed at the end
+
+            // Normal comparison if both values are valid integers
+            return bImportance - aImportance;
+        });
         setTempTasks(sortedTasks);
         setSort({
             dueDate: false,
