@@ -129,7 +129,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                         </li>
                         <li>
                             <span>Dark Theme</span>
-                            <ToggleSwitch toggleName="darkTheme" checked={settings.darkTheme} toggleFunction={() => { }} />
+                            <ToggleSwitch toggleName="darkTheme" checked={settings.darkTheme} toggleFunction={toggleDarkTheme} />
                         </li>
                     </ul>
                 </div>
