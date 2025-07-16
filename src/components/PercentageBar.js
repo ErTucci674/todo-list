@@ -11,7 +11,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
 
     const defaultSettings = {
         'percentageBar': true,
-        'percentageGoal': 0.75,
+        'factorChangeColor': 0.75,
         'darkTheme': false,
     }
     const [settings, setSettings] = useState(defaultSettings);
@@ -56,7 +56,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
         const value = parseInt(event.target.value, 10) / 100;
         const newSettings = {
             ...settings,
-            'percentageGoal': value,
+            'factorChangeColor': value,
         }
         localStorage.setItem(settingsStorageName, JSON.stringify(newSettings));
         setSettings(newSettings);
@@ -94,6 +94,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
         if (retrievedUserSettings != null) {
             setSettings(retrievedUserSettings);
             setPercentageBar(retrievedUserSettings.percentageBar);
+            setFactorChangeColor(retrievedUserSettings.factorChangeColor);
         }
     }, [])
 
@@ -121,7 +122,7 @@ function PercentageBar({ tasksTotal, tasksCompleted }) {
                         </li>
                         <li>
                             <span>Percentage Goal</span>
-                            <select className='percentageFactors' name="factors" onChange={handleFactorChangeColor}>
+                            <select className='percentageFactors' name="factors" value={settings.factorChangeColor * 100} onChange={handleFactorChangeColor}>
                                 {factorNumbers.map((num) => (
                                     <option key={num} value={num}>{num}</option>
                                 ))}
