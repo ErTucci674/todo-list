@@ -180,6 +180,9 @@ function Tasks() {
                 <ArrangeButton sort={true} sorting={sorting} filter={false} />
                 <ArrangeButton sort={false} sorting={sorting} filter={true} />
             </div>
+            <h2>My Day</h2>
+            <h2>Preferred</h2>
+            <h2>All</h2>
             {tempTasks.map(task => {
                 return (
                     <Task key={task.id} task={task} updateTask={updateTask} />
