@@ -15,6 +15,7 @@ function Tasks() {
     // Tasks
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
+    const [preferredTasks, setPreferredTasks] = useState([]);
     const [tasksTotal, setTasksTotal] = useState(0);
     const [tasksCompleted, setTasksCompleted] = useState(0);
 
@@ -162,11 +163,19 @@ function Tasks() {
         }
     }
 
+    // Finds the tasks that the user 'starred' and includes them in the Preferred Tasks list
+    // TODO: the preferred tasks list needs to be updated when the 'star' is selected/deselected
+    function findPreferredTasks(currentTasks) {
+        const foundPreferredTasks = currentTasks.filter(task => task.preference === true);
+        setPreferredTasks(foundPreferredTasks);
+    }
+
     useEffect(() => {
         // Get the user's tasks if created already
         if (retrievedUserTasks != null) {
             setTasks(retrievedUserTasks);
             setTempTasks(retrievedUserTasks);
+            findPreferredTasks(retrievedUserTasks);
             setTasksTotal(retrievedUserTasks.length);
             setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus === true).length);
         }
@@ -180,13 +189,18 @@ function Tasks() {
                 <ArrangeButton sort={true} sorting={sorting} filter={false} />
                 <ArrangeButton sort={false} sorting={sorting} filter={true} />
             </div>
-            <section class="tasks-list">
+            <section className="tasks-list">
                 <h2>My Day</h2>
             </section>
-            <section class="tasks-list">
+            <section className="tasks-list">
                 <h2>Preferred</h2>
+                {preferredTasks.map(task => {
+                    return (
+                        <Task key={`${task.id}-preferred`} task={task} updateTask={updateTask}></Task>
+                    )
+                })}
             </section>
-            <section class="tasks-list">
+            <section className="tasks-list">
                 <h2>All</h2>
                 {tempTasks.map(task => {
                     return (
