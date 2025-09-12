@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400&display=swap');
 
 :root {
-  /* Main Colours */
+  /* --- Main Colours --- */
   --background: #eee;
   --content-gray: #868686;
   --content-background: #d0d0d0;
@@ -13,25 +13,30 @@
   --blue: #6a9ed9;
   --yellow: #d9d56a;
 
-  /* Layouts */
+  /* --- Layouts --- */
   --max-page-width: 700px;
   --border-radius: 5px;
   --shadow-color: #0003;
   --box-shadow: 1px 4px 4px 0 var(--shadow-color);
   --font-size: clamp(1rem, 2vw, 1.15rem);
-  --task-padding-block: 10px;
-  --task-padding-inline: calc(var(--task-padding-block) + 5px);
   --page-content-gap: 20px;
   --icon-size: clamp(1.25rem, 2vw, 1.5rem);
   --icon-gap: 1.5rem;
   --arrange-icon-size: calc(var(--icon-size) * 1.25);
   --arrange-button-padding: 3px;
-  --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
   --percentage-bar-wrapper-width: calc(var(--task-width) + var(--task-padding-inline) * 2);
+
+  /* Individual Task */
+  --task-width: calc(100% - ((var(--page-content-gap) + var(--icon-size)) * 2));
+  --task-padding-block: 10px;
+  --task-padding-inline: calc(var(--task-padding-block) + 5px);
+
+  /* Sections */
+  --tasks-list-gap: 10px;
   --heading-width: calc(var(--task-width) + var(--task-padding-inline) * 2);
   --heading-color: var(--content-main);
 
-  /* Animation & Transitions */
+  /* --- Animations and Transitions --- */
   --transition-time: 500ms;
   --transition-type-switch: cubic-bezier(0.22, 1, 0.36, 1);
 }
