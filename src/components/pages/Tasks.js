@@ -56,10 +56,9 @@ function Tasks() {
         if (taskToUpdate.deleteStatus) {
             newUserTasks = tasks.filter((task) => task.id !== taskToUpdate.id);
 
-            // Update the number of completed tasks if necessary
-            // Update the total number of tasks
-            if (taskToUpdate.completionStatus) setTasksCompleted(tasksCompleted - 1);
-            setTasksTotal(tasksTotal - 1);
+            // Adjust the totals if the deleted task was completed
+            if (taskToUpdate.completionStatus) setTasksCompleted((count) => count - 1);
+            setTasksTotal((total) => total - 1);
         } else {
             // Find the correct task and update it
             // Store all of the 'new' tasks in a variable to update the user's storage and app
@@ -70,12 +69,8 @@ function Tasks() {
                         taskToUpdate.completionStatus ? setTasksCompleted(tasksCompleted + 1) : setTasksCompleted(tasksCompleted - 1);
                     }
 
-                    // Updates the current task
-                    task.text = taskToUpdate.text;
-                    task.dueDate = taskToUpdate.dueDate;
-                    task.completionStatus = taskToUpdate.completionStatus;
-                    task.importance = taskToUpdate.importance;
-                    task.preference = taskToUpdate.preference;
+                    // Updates the current task with the new values
+                    task = Object.assign({}, taskToUpdate);
                 }
                 return task;
             })
@@ -142,6 +137,7 @@ function Tasks() {
     function updateTasks(newUserTasks) {
         setTasks(newUserTasks);
         setTempTasks(newUserTasks);
+        findPreferredTasks(newUserTasks);
         sortFilter(newUserTasks);
     }
 
@@ -196,7 +192,7 @@ function Tasks() {
                 <h2>Preferred</h2>
                 {preferredTasks.map(task => {
                     return (
-                        <Task key={`${task.id}-preferred`} task={task} updateTask={updateTask}></Task>
+                        <Task key={task.id} task={task} updateTask={updateTask}></Task>
                     )
                 })}
             </section>

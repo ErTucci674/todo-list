@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Task.css';
 import ReorderIcon from './svgs/component/ReorderIcon.js';
 import CheckIcon from './svgs/component/CheckIcon.js';
@@ -62,18 +62,21 @@ function Task({ task, updateTask }) {
 
         // Update the corresponding parametre with the new value
         // TODO: deletion/removal animation before checking the 'delete' checkbox
+        // Completion status, Preference, Delete Status
         if (type === 'checkbox') {
             newTaskData = {
                 ...newTaskData,
                 [name]: checked
             };
-            // Update the values on the main page
-            updateTask(newTaskData);
+            // // Update the values on the main page
+            // updateTask(newTaskData);
+            // Importance
         } else if (type === 'radio') {
             newTaskData = {
                 ...newTaskData,
                 importance: value
             };
+            // Text, Date
         } else {
             newTaskData = {
                 ...newTaskData,
@@ -83,6 +86,9 @@ function Task({ task, updateTask }) {
 
         setTaskData(newTaskData);
         getTaskDate();
+
+        // Update the values on the main page
+        updateTask(newTaskData);
     }
 
     // Returns converted date format 'year-month-day' to 'day-month-year'
@@ -94,6 +100,20 @@ function Task({ task, updateTask }) {
         if (isNaN(date.getTime())) return "No due date";
         return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
     }
+
+    // Keep local state in sync when the parent updates the task prop
+    useEffect(() => {
+        setTaskData({
+            id: task.id,
+            text: task.text,
+            dueDate: task.dueDate,
+            completionStatus: task.completionStatus,
+            importance: task.importance,
+            preference: task.preference,
+            deleteStatus: false
+        });
+        setImportance(task.importance);
+    }, [task]);
 
     return (
         <div className='Task'>
