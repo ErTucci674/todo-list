@@ -85,7 +85,7 @@ function Task({ task, updateTask }) {
         getTaskDate();
 
         // Update the values on the main page when 'preference' is selected
-        if (name === 'preference') updateTask(newTaskData);
+        if (name === 'preference' || name === 'deleteStatus') updateTask(newTaskData);
     }
 
     // Returns converted date format 'year-month-day' to 'day-month-year'
