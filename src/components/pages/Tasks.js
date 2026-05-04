@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { dateToString } from '../../utils.js';
 import './Tasks.css';
 import '../svgs/icons.css';
 import PercentageBar from '../PercentageBar.js';
@@ -15,6 +16,7 @@ function Tasks() {
     // Tasks
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
+    const [todayTasks, setTodayTasks] = useState([]);
     const [preferredTasks, setPreferredTasks] = useState([]);
     const [tasksTotal, setTasksTotal] = useState(0);
     const [tasksCompleted, setTasksCompleted] = useState(0);
@@ -137,6 +139,7 @@ function Tasks() {
     function updateTasks(newUserTasks) {
         setTasks(newUserTasks);
         setTempTasks(newUserTasks);
+        findTodayTasks(newUserTasks);
         findPreferredTasks(newUserTasks);
         sortFilter(newUserTasks);
     }
@@ -159,6 +162,14 @@ function Tasks() {
         }
     }
 
+    // Finds the tasks which have the same date as the 'current' date
+    function findTodayTasks(currentTasks) {
+        const todayDate = dateToString(new Date());
+        const foundTodayTasks = currentTasks.filter(task => dateToString(task.dueDate) === todayDate)
+
+        setTodayTasks(foundTodayTasks);
+    }
+
     // Finds the tasks that the user 'starred' and includes them in the Preferred Tasks list
     function findPreferredTasks(currentTasks) {
         const foundPreferredTasks = currentTasks.filter(task => task.preference === true);
@@ -170,6 +181,7 @@ function Tasks() {
         if (retrievedUserTasks != null) {
             setTasks(retrievedUserTasks);
             setTempTasks(retrievedUserTasks);
+            findTodayTasks(retrievedUserTasks);
             findPreferredTasks(retrievedUserTasks);
             setTasksTotal(retrievedUserTasks.length);
             setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus === true).length);
@@ -185,13 +197,18 @@ function Tasks() {
                 <ArrangeButton sort={false} sorting={sorting} filter={true} />
             </div>
             <section className="tasks-list">
-                <h2>My Day</h2>
+                <h2>Today - {dateToString(new Date())}</h2>
+                {todayTasks.map(task => {
+                    return (
+                        <Task key={task.id} task={task} updateTask={updateTask} />
+                    )
+                })}
             </section>
             <section className="tasks-list">
                 <h2>Preferred</h2>
                 {preferredTasks.map(task => {
                     return (
-                        <Task key={task.id} task={task} updateTask={updateTask}></Task>
+                        <Task key={task.id} task={task} updateTask={updateTask} />
                     )
                 })}
             </section>

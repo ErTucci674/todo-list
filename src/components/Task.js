@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { dateToString } from '../utils.js';
 import './Task.css';
 import ReorderIcon from './svgs/component/ReorderIcon.js';
 import CheckIcon from './svgs/component/CheckIcon.js';
@@ -68,6 +69,7 @@ function Task({ task, updateTask }) {
                 ...newTaskData,
                 [name]: checked
             };
+            updateTask(newTaskData);
         } else if (type === 'radio') {
             newTaskData = {
                 ...newTaskData,
@@ -82,20 +84,6 @@ function Task({ task, updateTask }) {
         }
 
         setTaskData(newTaskData);
-        getTaskDate();
-
-        // Update the values on the main page when 'preference' is selected
-        if (name === 'preference' || name === 'deleteStatus') updateTask(newTaskData);
-    }
-
-    // Returns converted date format 'year-month-day' to 'day-month-year'
-    // Otherwise, if no date has been included, returns a different string
-    function getTaskDate() {
-        const date = new Date(task.dueDate);
-
-        // Check for a valid date input and return the corresponding string        
-        if (isNaN(date.getTime())) return "No due date";
-        return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
     }
 
     // Keep local state in sync when the parent updates the task prop
@@ -115,7 +103,7 @@ function Task({ task, updateTask }) {
     return (
         <div className='Task'>
             <div className='date-wrapper'>
-                <p>{getTaskDate()}</p>
+                <p>{dateToString(taskData.dueDate)}</p>
                 <div className='line'></div>
             </div>
             <div className='task-wrapper'>
