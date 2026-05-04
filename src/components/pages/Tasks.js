@@ -160,7 +160,6 @@ function Tasks() {
     }
 
     // Finds the tasks that the user 'starred' and includes them in the Preferred Tasks list
-    // TODO: the preferred tasks list needs to be updated when the 'star' is selected/deselected
     function findPreferredTasks(currentTasks) {
         const foundPreferredTasks = currentTasks.filter(task => task.preference === true);
         setPreferredTasks(foundPreferredTasks);

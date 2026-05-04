@@ -34,18 +34,18 @@ function Task({ task, updateTask }) {
 
         // Save the new data if edit mode is disabled
         if (!editStatus) {
+            // Don't allow the user to leave a blank text
+            if (taskData.text.trim() === '') taskData.text = task.text.slice();
+
             // Make sure spaces at the beginning and end of the task's text are removed
             const adjustedTaskData = {
                 ...taskData,
                 text: taskData.text.trim()
             }
 
-            // Don't allow the user to leave a blank text
             // TODO: show an 'error tab' for an invalid text input
-            if (adjustedTaskData.text !== '') {
-                updateTask(adjustedTaskData);
-                setTaskData(adjustedTaskData);
-            }
+            updateTask(adjustedTaskData);
+            setTaskData(adjustedTaskData);
 
             // Update the Task's importance illustrated icon (not the selectable input)
             setImportance(adjustedTaskData.importance);
@@ -68,9 +68,6 @@ function Task({ task, updateTask }) {
                 ...newTaskData,
                 [name]: checked
             };
-            // // Update the values on the main page
-            // updateTask(newTaskData);
-            // Importance
         } else if (type === 'radio') {
             newTaskData = {
                 ...newTaskData,
@@ -87,8 +84,8 @@ function Task({ task, updateTask }) {
         setTaskData(newTaskData);
         getTaskDate();
 
-        // Update the values on the main page
-        updateTask(newTaskData);
+        // Update the values on the main page when 'preference' is selected
+        if (name === 'preference') updateTask(newTaskData);
     }
 
     // Returns converted date format 'year-month-day' to 'day-month-year'
