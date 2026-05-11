@@ -1,3 +1,17 @@
+// Returns a string of the current date in the univeral format
+export function getCurrentDate() {
+    const newDate = new Date();
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+
+    // 2 digits format
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+
+    return `${year}-${month}-${day}`;
+}
+
 // Returns converted date format 'year-month-day' to 'day-month-year'
 // Otherwise, if no date has been included, returns a different string
 export function dateToString(date) {
