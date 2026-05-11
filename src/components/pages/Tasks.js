@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { dateToString } from '../../utils.js';
+import { dateToString, getCurrentDate } from '../../utils.js';
 import './Tasks.css';
 import '../svgs/icons.css';
 import PercentageBar from '../PercentageBar.js';
@@ -12,6 +12,10 @@ function Tasks() {
     // Retrieved user's data
     const tasksStorageName = "tasks";
     const retrievedUserTasks = JSON.parse(localStorage.getItem(tasksStorageName));
+
+    // Filter Constants
+    const FILTER_ANYTHING = 1;
+    const FILTER_MISSING = 0;
 
     // Tasks
     const [tasks, setTasks] = useState([]);
@@ -25,6 +29,44 @@ function Tasks() {
         dueDate: false,
         importance: false
     });
+
+    const [filter, setFilter] = useState({
+        preferred: {
+            state: false,
+            comparison: 'preference',
+            accepted: true
+        },
+        today: {
+            state: false,
+            comparison: 'dueDate',
+            accepted: getCurrentDate()
+        },
+        date: {
+            state: false,
+            comparison: 'dueDate',
+            accepted: FILTER_ANYTHING
+        },
+        important: {
+            state: false,
+            comparison: 'importance',
+            accepted: '1'
+        },
+        notImportant: {
+            state: false,
+            comparison: 'importance',
+            accepted: '0'
+        },
+        missingDate: {
+            state: false,
+            comparison: 'dueDate',
+            accepted: FILTER_MISSING
+        },
+        missingImportance: {
+            state: false,
+            comparison: 'importance',
+            accepted: FILTER_MISSING
+        },
+    })
 
     function addNewTask(data) {
         // Generate an ID for the new task
@@ -84,6 +126,25 @@ function Tasks() {
     }
 
     // --- Sorting Functions ---
+
+    const sorting = {
+        sortReset,
+        sortTasksByDueDate,
+        sortTasksByImportance
+    }
+
+    // Checks which 'filter' options have been selected
+    // Adjusts the illustrated tasks accordingly
+    function checkSort(currentTasks) {
+        // Check for sorting
+        if (sort.dueDate) {
+            sortTasksByDueDate(currentTasks)
+        }
+        else if (sort.importance) {
+            sortTasksByImportance(currentTasks);
+        }
+    }
+
     // Reset the sorting to the default state
     function sortReset() {
         setTempTasks([...tasks]);
@@ -135,31 +196,50 @@ function Tasks() {
         })
     }
 
+    // --- Filtering Functions ---
+
+    // Edit one of the filter options
+    function filterTasks(filterOption, filterOptionValue) {
+        setFilter({
+            ...filter,
+            [filterOption]: {
+                ...filter[filterOption],
+                state: filterOptionValue
+            }
+        });
+        checkFilter(tempTasks);
+    }
+
+    // Filter tasks through the new filter options
+    function checkFilter(currentTasks) {
+        // Return the same tasks if there are no active filters
+        const activeFilters = Object.keys(filter).filter(key => filter[key].state);
+        const filteredTasks = !(activeFilters.length > 0) ? currentTasks :
+            currentTasks.filter(task => {
+                const checkActive = activeFilters.every(filterKey => {
+                    const currentFilter = filter[filterKey];
+                    if (currentFilter.accepted === FILTER_ANYTHING) {
+                        return (task[currentFilter.comparison] !== '')
+                    } else if (currentFilter.accepted === FILTER_MISSING) {
+                        return (task[currentFilter.comparison] === '')
+                    } else {
+                        return (task[currentFilter.comparison] === currentFilter.accepted)
+                    }
+                });
+                return checkActive;
+            }
+            );
+        setTempTasks(filteredTasks);
+    }
+
     // Updates the 'main' tasks and re-loads the ones illustrated on the page
     function updateTasks(newUserTasks) {
         setTasks(newUserTasks);
         setTempTasks(newUserTasks);
         findTodayTasks(newUserTasks);
         findPreferredTasks(newUserTasks);
-        sortFilter(newUserTasks);
-    }
-
-    const sorting = {
-        sortReset,
-        sortTasksByDueDate,
-        sortTasksByImportance
-    }
-
-    // Checks which 'sort' and 'filter' options have been selected
-    // Adjusts the illustrated tasks accordingly
-    function sortFilter(currentTasks) {
-        // Check for sorting
-        if (sort.dueDate) {
-            sortTasksByDueDate(currentTasks)
-        }
-        else if (sort.importance) {
-            sortTasksByImportance(currentTasks);
-        }
+        checkSort(newUserTasks);
+        checkFilter(newUserTasks);
     }
 
     // Finds the tasks which have the same date as the 'current' date
@@ -184,7 +264,7 @@ function Tasks() {
             findTodayTasks(retrievedUserTasks);
             findPreferredTasks(retrievedUserTasks);
             setTasksTotal(retrievedUserTasks.length);
-            setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus === true).length);
+            setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus).length);
         }
     }, [])
 
@@ -193,27 +273,11 @@ function Tasks() {
             <PercentageBar tasksTotal={tasksTotal} tasksCompleted={tasksCompleted} />
             <NewTaskForm addNewTask={addNewTask} />
             <div className='arrange-wrapper'>
-                <ArrangeButton sort={true} sorting={sorting} filter={false} />
-                <ArrangeButton sort={false} sorting={sorting} filter={true} />
+                <ArrangeButton sortState={true} sorting={sorting} filterState={false} />
+                <ArrangeButton sortState={false} filterTasks={filterTasks} filterState={true} filter={filter} />
             </div>
             <section className="tasks-list">
-                <h2>Today - {dateToString(new Date())}</h2>
-                {todayTasks.map(task => {
-                    return (
-                        <Task key={task.id} task={task} updateTask={updateTask} />
-                    )
-                })}
-            </section>
-            <section className="tasks-list">
-                <h2>Preferred</h2>
-                {preferredTasks.map(task => {
-                    return (
-                        <Task key={task.id} task={task} updateTask={updateTask} />
-                    )
-                })}
-            </section>
-            <section className="tasks-list">
-                <h2>All</h2>
+                <h2>Tasks</h2>
                 {tempTasks.map(task => {
                     return (
                         <Task key={task.id} task={task} updateTask={updateTask} />
