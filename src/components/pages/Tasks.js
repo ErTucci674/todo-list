@@ -211,7 +211,7 @@ function Tasks() {
     }
 
     // Filter tasks through the new filter options
-    function checkFilter(currentTasks) {
+    function checkFilter(currentTasks = [...tasks]) {
         // Return the same tasks if there are no active filters
         const activeFilters = Object.keys(filter).filter(key => filter[key].state);
         const filteredTasks = !(activeFilters.length > 0) ? currentTasks :
@@ -232,16 +232,6 @@ function Tasks() {
         setTempTasks(filteredTasks);
     }
 
-    // Updates the 'main' tasks and re-loads the ones illustrated on the page
-    function updateTasks(newUserTasks) {
-        setTasks(newUserTasks);
-        setTempTasks(newUserTasks);
-        findTodayTasks(newUserTasks);
-        findPreferredTasks(newUserTasks);
-        checkSort(newUserTasks);
-        checkFilter(newUserTasks);
-    }
-
     // Finds the tasks which have the same date as the 'current' date
     function findTodayTasks(currentTasks) {
         const todayDate = dateToString(new Date());
@@ -256,6 +246,24 @@ function Tasks() {
         setPreferredTasks(foundPreferredTasks);
     }
 
+    // --- UPDATE FUNCTIONS ---
+
+    // Updates the 'main' tasks and re-loads the ones illustrated on the page
+    function updateTasks(newUserTasks) {
+        setTasks(newUserTasks);
+        setTempTasks(newUserTasks);
+        findTodayTasks(newUserTasks);
+        findPreferredTasks(newUserTasks);
+        checkSort(newUserTasks);
+        checkFilter(newUserTasks);
+    }
+
+    // Updates when the filter changes
+    useEffect(() => {
+        checkFilter();
+    }, [filter])
+
+    // Initial Setup
     useEffect(() => {
         // Get the user's tasks if created already
         if (retrievedUserTasks != null) {
