@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { dateToString, getCurrentDate } from '../../utils.js';
+import { getCurrentDate } from '../../utils.js';
 import './Tasks.css';
 import '../svgs/icons.css';
 import PercentageBar from '../PercentageBar.js';
@@ -20,8 +20,6 @@ function Tasks() {
     // Tasks
     const [tasks, setTasks] = useState([]);
     const [tempTasks, setTempTasks] = useState([]);
-    const [todayTasks, setTodayTasks] = useState([]);
-    const [preferredTasks, setPreferredTasks] = useState([]);
     const [tasksTotal, setTasksTotal] = useState(0);
     const [tasksCompleted, setTasksCompleted] = useState(0);
 
@@ -29,6 +27,12 @@ function Tasks() {
         dueDate: false,
         importance: false
     });
+
+    const sortOptions = {
+        reset: () => setSort({ dueDate: false, importance: false }),
+        dueDate: () => setSort({ dueDate: true, importance: false }),
+        importance: () => setSort({ dueDate: false, importance: true })
+    }
 
     const [filter, setFilter] = useState({
         preferred: {
@@ -127,35 +131,29 @@ function Tasks() {
 
     // --- Sorting Functions ---
 
-    const sorting = {
-        sortReset,
-        sortTasksByDueDate,
-        sortTasksByImportance
-    }
-
     // Checks which 'filter' options have been selected
     // Adjusts the illustrated tasks accordingly
-    function checkSort(currentTasks) {
+    function checkSort(currentTasks = [...tasks]) {
         // Check for sorting
         if (sort.dueDate) {
-            sortTasksByDueDate(currentTasks)
+            return sortTasksByDueDate(currentTasks)
         }
         else if (sort.importance) {
-            sortTasksByImportance(currentTasks);
+            return sortTasksByImportance(currentTasks);
+        }
+        else {
+            return sortReset(currentTasks);
         }
     }
 
     // Reset the sorting to the default state
-    function sortReset() {
-        setTempTasks([...tasks]);
-        setSort({
-            dueDate: false,
-            importance: false
-        })
+    function sortReset(currentTasks) {
+        setTempTasks(currentTasks);
+        return currentTasks;
     }
 
     // Sort tasks by dueDate in ascending order
-    function sortTasksByDueDate(currentTasks = [...tasks]) {
+    function sortTasksByDueDate(currentTasks) {
         const sortedTasks = currentTasks.sort((a, b) => {
             const aDueDate = new Date(a.dueDate);
             const bDueDate = new Date(b.dueDate);
@@ -169,14 +167,11 @@ function Tasks() {
             return aDueDate - bDueDate;
         });
         setTempTasks(sortedTasks);
-        setSort({
-            dueDate: true,
-            importance: false
-        })
+        return sortedTasks;
     }
 
     // Sort taks by importance level in descending order
-    function sortTasksByImportance(currentTasks = [...tasks]) {
+    function sortTasksByImportance(currentTasks) {
         const sortedTasks = currentTasks.sort((a, b) => {
             const aImportance = parseInt(a.importance, 10);
             const bImportance = parseInt(b.importance, 10);
@@ -190,10 +185,7 @@ function Tasks() {
             return bImportance - aImportance;
         });
         setTempTasks(sortedTasks);
-        setSort({
-            dueDate: false,
-            importance: true
-        })
+        return sortedTasks;
     }
 
     // --- Filtering Functions ---
@@ -207,7 +199,6 @@ function Tasks() {
                 state: filterOptionValue
             }
         });
-        checkFilter(tempTasks);
     }
 
     // Filter tasks through the new filter options
@@ -230,38 +221,34 @@ function Tasks() {
             }
             );
         setTempTasks(filteredTasks);
-    }
-
-    // Finds the tasks which have the same date as the 'current' date
-    function findTodayTasks(currentTasks) {
-        const todayDate = dateToString(new Date());
-        const foundTodayTasks = currentTasks.filter(task => dateToString(task.dueDate) === todayDate)
-
-        setTodayTasks(foundTodayTasks);
-    }
-
-    // Finds the tasks that the user 'starred' and includes them in the Preferred Tasks list
-    function findPreferredTasks(currentTasks) {
-        const foundPreferredTasks = currentTasks.filter(task => task.preference === true);
-        setPreferredTasks(foundPreferredTasks);
+        return filteredTasks;
     }
 
     // --- UPDATE FUNCTIONS ---
 
-    // Updates the 'main' tasks and re-loads the ones illustrated on the page
+    // Force updates the 'main' tasks and re-loads the ones illustrated on the page
     function updateTasks(newUserTasks) {
         setTasks(newUserTasks);
         setTempTasks(newUserTasks);
-        findTodayTasks(newUserTasks);
-        findPreferredTasks(newUserTasks);
-        checkSort(newUserTasks);
-        checkFilter(newUserTasks);
     }
 
-    // Updates when the filter changes
+    // Updates when the filter options change
     useEffect(() => {
-        checkFilter();
+        const filteredValues = checkFilter();
+        checkSort(filteredValues);
     }, [filter])
+
+    // Updates when the sorting option changes
+    useEffect(() => {
+        const sortedValues = checkSort();
+        checkFilter(sortedValues);
+    }, [sort])
+
+    // Updates when the 'original tasks' change
+    useEffect(() => {
+        checkSort();
+        checkFilter();
+    }, [tasks])
 
     // Initial Setup
     useEffect(() => {
@@ -269,8 +256,6 @@ function Tasks() {
         if (retrievedUserTasks != null) {
             setTasks(retrievedUserTasks);
             setTempTasks(retrievedUserTasks);
-            findTodayTasks(retrievedUserTasks);
-            findPreferredTasks(retrievedUserTasks);
             setTasksTotal(retrievedUserTasks.length);
             setTasksCompleted(retrievedUserTasks.filter(task => task.completionStatus).length);
         }
@@ -281,7 +266,7 @@ function Tasks() {
             <PercentageBar tasksTotal={tasksTotal} tasksCompleted={tasksCompleted} />
             <NewTaskForm addNewTask={addNewTask} />
             <div className='arrange-wrapper'>
-                <ArrangeButton sortState={true} sorting={sorting} filterState={false} />
+                <ArrangeButton sortState={true} sortOptions={sortOptions} filterState={false} />
                 <ArrangeButton sortState={false} filterTasks={filterTasks} filterState={true} filter={filter} />
             </div>
             <section className="tasks-list">

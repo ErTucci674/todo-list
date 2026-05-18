@@ -4,7 +4,7 @@ import './ArrangeButton.css';
 import SortIcon from './svgs/component/SortIcon.js';
 import FilterIcon from './svgs/component/FilterIcon.js';
 
-function ArrangeButton({ sortState, sorting, filterState, filterTasks, filter }) {
+function ArrangeButton({ sortState, sortOptions, filterState, filterTasks, filter }) {
     const [buttonChecked, setButtonChecked] = useState(false);
     const [dueDateChecked, setDueDateChecked] = useState(false);
     const [importanceChecked, setImportanceChecked] = useState(false);
@@ -33,13 +33,13 @@ function ArrangeButton({ sortState, sorting, filterState, filterTasks, filter })
                     setImportanceChecked(false)
 
                     // Reset the 'sorting order' if the checkbox has been unchecked
-                    checked ? sorting.sortTasksByDueDate() : sorting.sortReset();
+                    checked ? sortOptions.dueDate() : sortOptions.reset();
                 } else if (name === "importance") {
                     setImportanceChecked(checked);
                     setDueDateChecked(false)
 
                     // Reset the 'sorting order' if the checkbox has been unchecked
-                    checked ? sorting.sortTasksByImportance() : sorting.sortReset();
+                    checked ? sortOptions.importance() : sortOptions.reset();
                 }
             }
             else if (filterState) {
@@ -75,7 +75,7 @@ function ArrangeButton({ sortState, sorting, filterState, filterTasks, filter })
                 ])
             )
         )
-    }, []);
+    }, [filter]);
 
     return (
         <div className='ArrangeButton icon-wrapper'>
